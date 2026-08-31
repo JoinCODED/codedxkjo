@@ -967,6 +967,19 @@ body.hide-brand .brandmark{opacity:0;}
 .wt-b.go:hover{filter:brightness(1.12)}
 .wt-note{margin-top:18px;font-size:13px;line-height:1.5;color:var(--w4)}
 
+/* --- scheduled break slides --- */
+.brkslide{text-align:center;display:flex;flex-direction:column;align-items:center}
+.bs-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--rose-lt);display:flex;align-items:center;gap:12px}
+.bs-eyebrow::before,.bs-eyebrow::after{content:'';width:36px;height:1px;background:var(--crimson)}
+.bs-title{margin-top:22px;font-size:clamp(36px,5.6vw,64px);font-weight:800;letter-spacing:-.03em;
+  line-height:1.05;color:var(--w)}
+.brkslide .brk-clock{margin-top:34px;font-family:var(--mono);font-size:clamp(64px,10vw,120px);
+  font-weight:700;letter-spacing:-.02em;color:var(--rose-lt);line-height:1;font-variant-numeric:tabular-nums}
+.bs-sub{margin-top:30px;font-size:clamp(16px,1.9vw,20px);line-height:1.6;color:var(--w7);max-width:760px}
+.bs-sub b{color:var(--w)}
+.bs-hint{margin-top:26px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--w4)}
+
 /* --- hook typer --- */
 .typer{margin-top:26px;max-width:920px;background:var(--surf);border:1px solid var(--w1);border-radius:14px;padding:20px 22px}
 .typer-lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--rose-lt);margin-bottom:12px}
@@ -1098,6 +1111,33 @@ body.hide-brand .brandmark{opacity:0;}
 .cl-note{margin-top:16px;font-size:15.5px;color:var(--w6);line-height:1.55}
 .cl-note b{color:var(--w8)}
 
+
+/* --- the next-word machine --- */
+.llm{margin-top:22px;max-width:1020px}
+.llm-out{font-family:var(--mono);font-size:clamp(17px,2.2vw,25px);line-height:1.6;color:var(--w8);
+  background:var(--surf);border:1px solid var(--w1);border-radius:14px;padding:20px 24px;min-height:76px}
+.llm-seed{color:var(--w5)}
+.llm-caret{display:inline-block;width:11px;height:1.05em;background:var(--crimson);
+  vertical-align:text-bottom;margin-left:6px;animation:cblink 1s steps(2) infinite}
+.llm-cands{margin-top:14px;min-height:168px;display:flex;flex-direction:column;gap:7px}
+.llm-idle{font-size:14.5px;color:var(--w4);padding:14px 4px;line-height:1.5}
+.llm-c{display:grid;grid-template-columns:150px 1fr 56px;gap:14px;align-items:center;
+  background:var(--surf);border:1px solid var(--w1);border-radius:9px;padding:8px 14px;
+  animation:abin .3s cubic-bezier(.2,.7,.2,1) both;transition:border-color .25s,background .25s}
+@media(max-width:700px){.llm-c{grid-template-columns:96px 1fr 48px}}
+.llm-c.pick{border-color:rgba(61,200,115,.55);background:rgba(61,200,115,.08)}
+.llm-w{font-family:var(--mono);font-size:15.5px;color:var(--w7)}
+.llm-c.pick .llm-w{color:var(--green-lt);font-weight:700}
+.llm-b{height:9px;border-radius:99px;background:rgba(255,255,255,.06);overflow:hidden}
+.llm-b i{display:block;height:100%;border-radius:99px;background:var(--mid);transition:background .25s}
+.llm-c.pick .llm-b i{background:var(--green)}
+.llm-p{font-family:var(--mono);font-size:12.5px;color:var(--w4);text-align:right}
+.llm-c.pick .llm-p{color:var(--green-lt)}
+.llm-ctrl{margin-top:16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.llm-run{font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--w4);margin-left:auto}
+.llm-note{margin-top:14px;font-size:15.5px;line-height:1.55;color:var(--w6);opacity:0;transition:opacity .5s}
+.llm-note.on{opacity:1}
+.llm-note b{color:var(--w8)}
 
 /* status ramp + KJO accent, not present in the example deck's :root */
 :root{--green:#3DC873;--green-lt:#8FE6AE;--amber:#E9C46A;--amber-lt:#FFE9B3;--danger:#FF5A6E;--blue:#FF8C00}
@@ -1254,6 +1294,16 @@ body.hide-brand .brandmark{opacity:0;}
   <div class="pause-3 b in"><div class="p3">What is still unclear?</div><div class="p3">What would you push back on?</div><div class="p3">What does this change on Sunday?</div></div>
 </div></div>
 
+<div class="slide" id="break1" data-auto="0" data-min="15"><div class="bg-grid"></div><div class="blob b1"></div><div class="blob b2"></div><div class="slide-pad center">
+  <div class="brkslide">
+    <div class="bs-eyebrow">Break</div>
+    <h2 class="bs-title">Fifteen minutes.</h2>
+    <div class="brk-clock">15:00</div>
+    <p class="bs-sub">When you come back, I will explain why a tool that just built that dashboard <b>cannot reliably count to forty.</b></p>
+    <div class="bs-hint">Need a different length? The &#9749; button below runs a custom timer.</div>
+  </div>
+</div></div>
+
 <div class="slide" id="t2story" data-auto="0"><div class="bg-grid"></div><div class="blob b1"></div><div class="blob b2"></div><div class="slide-pad">
   <div class="topic-eyebrow b in">Topic 02 &middot; Story</div>
   <h2 class="demo-h b in">How can <span class="hl">both be true?</span></h2>
@@ -1269,6 +1319,22 @@ body.hide-brand .brandmark{opacity:0;}
   <h2 class="demo-h b in">It predicts <span class="hl">the next piece of text.</span></h2>
   <p class="lead b in">Over and over. That is the whole mechanism, and it explains both the impressive dashboard and the unreliable count.</p>
   <div class="keyline big b in">It predicts. It does not look up, and it does not calculate.</div>
+</div></div>
+
+<div class="slide" id="t2d0" data-auto="0"><div class="bg-grid"></div><div class="blob b1"></div><div class="blob b2"></div><div class="slide-pad">
+  <div class="badge disc b in"><svg class="icn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="7" width="18" height="13" rx="2"></rect><path d="M8 3l4 4 4-4"></path><circle cx="8.5" cy="12.5" r="1"></circle><circle cx="15.5" cy="12.5" r="1"></circle><path d="M9 16.5h6"></path></svg> Demo &middot; a language model, slowed down so you can watch it choose</div>
+  <h2 class="demo-h b in">One word <span class="hl">at a time.</span></h2>
+  <div class="llm b in" id="llmW">
+    <div class="llm-out"><span class="llm-seed">The pump failed because</span><span id="llmText"></span><span class="llm-caret" id="llmCaret"></span></div>
+    <div class="llm-cands" id="llmCands"><div class="llm-idle">Each step, the model scores every word it could write next. Press the button and watch.</div></div>
+    <div class="llm-ctrl">
+      <button class="btn" id="llmStep">Predict the next word</button>
+      <button class="btn ghost" id="llmAuto">Run the rest</button>
+      <button class="btn ghost" id="llmAgain">Same prompt, again</button>
+      <span class="llm-run" id="llmRun">run 1</span>
+    </div>
+    <div class="llm-note" id="llmNote"></div>
+  </div>
 </div></div>
 
 <div class="slide" id="t2t1" data-auto="0"><div class="bg-grid"></div><div class="blob b1"></div><div class="blob b2"></div><div class="slide-pad">
@@ -1438,6 +1504,16 @@ body.hide-brand .brandmark{opacity:0;}
 
 </div></div>
 
+<div class="slide" id="break2" data-auto="0" data-min="45"><div class="bg-grid"></div><div class="blob b1"></div><div class="blob b2"></div><div class="slide-pad center">
+  <div class="brkslide">
+    <div class="bs-eyebrow">Break</div>
+    <h2 class="bs-title">Lunch.</h2>
+    <div class="brk-clock">45:00</div>
+    <p class="bs-sub">Forty-five minutes. <b>The answer board is the first thing we look at when you come back.</b></p>
+    <div class="bs-hint">Need a different length? The &#9749; button below runs a custom timer.</div>
+  </div>
+</div></div>
+
 <div class="slide" id="t4story" data-auto="0"><div class="bg-grid"></div><div class="blob b1"></div><div class="blob b2"></div><div class="slide-pad">
   <div class="topic-eyebrow b in">Topic 04 &middot; Story &middot; go back to the board first</div>
   <h2 class="demo-h b in">I did not tell you <span class="hl">the whole reason.</span></h2>
@@ -1505,6 +1581,16 @@ body.hide-brand .brandmark{opacity:0;}
     <div class="hint-r"><span class="ht">If you are stuck</span> Which of the six questions have you not asked yet?</div>
     <div class="hint-r"><span class="ht">Still stuck</span> Ask it to list every unique value in the asset column. Read that list.</div>
     <div class="hint-r"><span class="ht">Finished early</span> There are more than four defects in this file. Find one nobody has named yet.</div>
+  </div>
+</div></div>
+
+<div class="slide" id="break3" data-auto="0" data-min="10"><div class="bg-grid"></div><div class="blob b1"></div><div class="blob b2"></div><div class="slide-pad center">
+  <div class="brkslide">
+    <div class="bs-eyebrow">Break</div>
+    <h2 class="bs-title">Ten minutes.</h2>
+    <div class="brk-clock">10:00</div>
+    <p class="bs-sub">Then forty-five minutes on <b>2,400 rows</b>.</p>
+    <div class="bs-hint">Need a different length? The &#9749; button below runs a custom timer.</div>
   </div>
 </div></div>
 
@@ -2172,6 +2258,75 @@ function clInit(){var w=_q('clRows');if(!w)return;
     '<div class="cl-note">Two of those six could not be settled from the data alone. <b>Those are the lines that matter.</b></div>';}
 
 
+
+/* ---- t2d0: the next-word machine ----
+   A hand-authored simulation of next-token prediction, slowed down. Three coherent
+   completions of one seed; each step shows the candidate words and their scores,
+   then highlights the pick. Run 3 deliberately picks a low-scoring candidate at
+   step 2, so the room sees it does not always take the top of the list. */
+var LLM_RUNS=[
+ [ {c:[['the',38],['a',24],['its',12],['someone',3]],p:0},
+   {c:[['seal',22],['motor',19],['bearing',17],['operators',9]],p:0},
+   {c:[['wore',31],['failed',22],['cracked',14],['sang',1]],p:0},
+   {c:[['out',84],['down',9],['away',4],['up',2]],p:0},
+   {c:[['after',26],['and',24],['during',18],['because',9]],p:0},
+   {c:[['months',33],['years',21],['weeks',19],['minutes',6]],p:0},
+   {c:[['of',91],['with',4],['under',2],['beyond',1]],p:0},
+   {c:[['vibration.',28],['neglect.',22],['overheating.',17],['service.',12]],p:0} ],
+ [ {c:[['the',38],['a',24],['its',12],['someone',3]],p:1},
+   {c:[['bearing',27],['valve',21],['sensor',16],['gasket',9]],p:0},
+   {c:[['overheated',29],['seized',24],['failed',21],['melted',8]],p:0},
+   {c:[['during',31],['on',22],['after',17],['before',9]],p:0},
+   {c:[['the',62],['a',17],['last',9],['its',4]],p:0},
+   {c:[['night',34],['morning',22],['second',12],['double',5]],p:0},
+   {c:[['shift.',71],['crew.',11],['round.',6],['patrol.',4]],p:0} ],
+ [ {c:[['the',38],['a',24],['its',12],['someone',3]],p:0},
+   {c:[['seal',22],['motor',19],['bearing',17],['operators',9]],p:3},
+   {c:[['skipped',24],['missed',22],['ignored',18],['forgot',11]],p:0},
+   {c:[['the',66],['a',14],['their',12],['every',3]],p:0},
+   {c:[['weekly',29],['routine',24],['last',15],['annual',11]],p:0},
+   {c:[['inspection',47],['check',25],['service',13],['meeting',3]],p:0},
+   {c:[['again.',39],['entirely.',20],['twice.',12],['quietly.',7]],p:0} ]];
+var llmRun=0,llmStepI=0,llmT=null,llmBusy=false;
+function llmInit(){llmRun=0;llmStart();}
+function llmStart(){
+  if(llmT){clearTimeout(llmT);llmT=null;}llmStepI=0;llmBusy=false;
+  var t=_q('llmText');if(t)t.textContent='';
+  var c=_q('llmCands');if(c)c.innerHTML='<div class="llm-idle">Each step, the model scores every word it could write next. Press the button and watch.</div>';
+  var n=_q('llmNote');if(n){n.innerHTML='';n.classList.remove('on');}
+  var r=_q('llmRun');if(r)r.textContent='run '+(llmRun+1);
+  var b1=_q('llmStep'),b2=_q('llmAuto');if(b1)b1.disabled=false;if(b2)b2.disabled=false;
+  var cr=_q('llmCaret');if(cr)cr.style.display='inline-block';}
+function llmDoStep(done){
+  var steps=LLM_RUNS[llmRun%LLM_RUNS.length];
+  if(llmStepI>=steps.length){llmFinish();if(done)done(false);return;}
+  llmBusy=true;
+  var st=steps[llmStepI],box=_q('llmCands');
+  box.innerHTML=st.c.map(function(x,i){
+    return '<div class="llm-c" data-i="'+i+'"><span class="llm-w">'+x[0]+'</span>'+
+      '<span class="llm-b"><i style="width:'+x[1]+'%"></i></span><span class="llm-p">'+x[1]+'%</span></div>';}).join('');
+  llmT=setTimeout(function(){
+    var pick=box.querySelector('[data-i="'+st.p+'"]');if(pick)pick.classList.add('pick');
+    llmT=setTimeout(function(){
+      var t=_q('llmText');if(t)t.textContent+=' '+st.c[st.p][0];
+      llmStepI++;llmBusy=false;
+      if(llmStepI>=steps.length)llmFinish();
+      if(done)done(llmStepI<steps.length);
+    },450);
+  },650);}
+function llmFinish(){
+  var b1=_q('llmStep'),b2=_q('llmAuto');if(b1)b1.disabled=true;if(b2)b2.disabled=true;
+  var cr=_q('llmCaret');if(cr)cr.style.display='none';
+  var n=_q('llmNote');
+  if(n){n.innerHTML=(llmRun===0)
+    ? 'That is the whole mechanism: score, choose, append, repeat. Now press <b>Same prompt, again</b>.'
+    : 'Same prompt. <b>Different answer.</b> It is choosing, not looking up. And every run sounded equally confident.';
+   n.classList.add('on');}}
+function llmStep1(){if(!llmBusy)llmDoStep(null);}
+function llmAuto(){if(llmBusy)return;
+  (function next(){llmDoStep(function(more){if(more)llmT=setTimeout(next,250);});})();}
+function llmAgain(){llmRun++;llmStart();}
+
 /* ---- wire up + reset on arrival ---- */
 function resetInteractives(s){
   mcReset(s);
@@ -2180,6 +2335,7 @@ function resetInteractives(s){
   switch(s.id){
     case 'hook':   typeInit(); break;
     case 't1d1':   abInit();   break;
+    case 't2d0':   llmInit();  break;
     case 't1d3':   boardInit();break;
     case 't2d1':   pvcInit();  break;
     case 't3d1':   bldInit();  break;
@@ -2190,6 +2346,9 @@ function resetInteractives(s){
 }
 _on('typeGo',typeRun);
 _on('boardGo',boardNext);
+_on('llmStep',llmStep1);
+_on('llmAuto',llmAuto);
+_on('llmAgain',llmAgain);
 _on('pvcRunP',pvcRunP);
 _on('pvcRunC',pvcRunC);
 _on('bldNext',bldNext);

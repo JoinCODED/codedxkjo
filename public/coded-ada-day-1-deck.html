@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Day 1 &middot; Working With AI on Real Data, CODED &times; KJO</title>
+<title>Day 1 &middot; Working With AI on Real Data &middot; CODED &times; KJO</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -1708,12 +1708,13 @@ for(var i=0;i<total;i++){var d=document.createElement('button');
   var tip=document.createElement('span');tip.className='nav-tip';tip.textContent=(i+1)+'. '+TITLES[i];
   d.appendChild(tip);dc.appendChild(d);}
 var dots=[].slice.call(dc.querySelectorAll('.nav-dot'));
+function cgrp(x){return String(x).replace(/\B(?=(\d{3})+(?!\d))/g,',');}
 function countUp(el){if(el.classList.contains('done'))return;el.classList.add('done');
   var tgt=parseFloat(el.dataset.count),dec=+(el.dataset.dec||0),pre=el.dataset.prefix||'',suf=el.dataset.suffix||'';
   var dur=850,st=performance.now();
   function tick(now){var p=Math.min(1,(now-st)/dur),e=1-Math.pow(1-p,3);
-    el.innerHTML=pre+(tgt*e).toFixed(dec)+(suf?'<span class="u">'+suf+'</span>':'');
-    if(p<1)requestAnimationFrame(tick);else el.innerHTML=pre+tgt.toFixed(dec)+(suf?'<span class="u">'+suf+'</span>':'');}
+    el.innerHTML=pre+cgrp((tgt*e).toFixed(dec))+(suf?'<span class="u">'+suf+'</span>':'');
+    if(p<1)requestAnimationFrame(tick);else el.innerHTML=pre+cgrp(tgt.toFixed(dec))+(suf?'<span class="u">'+suf+'</span>':'');}
   requestAnimationFrame(tick);}
 function items(s){return [].slice.call(s.querySelectorAll('.b'));}
 function advance(){var s=slides[idx];var rest=items(s).filter(function(el){return !el.classList.contains('shown');});

@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 3 workbook &middot; From Knowledge to Wisdom , CODED &times; KJO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+
+:root{
+  --base:#0A0507; --card:#130A0C; --card-2:#190E11;
+  --ink:#F5F0F1; --ink-dim:#AEA2A5; --ink-faint:#76696C;
+  --maroon:#002539; --mid:#204898; --crimson:#0878B8; --rose:#35A7DC; --rose-lt:#C2EEFB;
+  --green:#3DC873; --green-lt:#8FE6AE; --amber:#E9C46A;
+  --line:rgba(255,255,255,.07); --line-2:rgba(255,255,255,.13);
+  --f:'Manrope',system-ui,sans-serif; --mono:'Space Mono',ui-monospace,monospace;
+  --rail:270px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:20px}
+body{background:radial-gradient(1100px 640px at 85% -8%,rgba(8,120,184,.10),transparent 60%),var(--base);
+  color:var(--ink);font-family:var(--f);-webkit-font-smoothing:antialiased;line-height:1.6}
+a{color:inherit;text-decoration:none}
+#app{display:grid;grid-template-columns:var(--rail) 1fr;min-height:100vh}
+@media(max-width:900px){#app{grid-template-columns:1fr}}
+
+/* rail */
+#rail{position:sticky;top:0;height:100vh;overflow-y:auto;background:linear-gradient(180deg,#0C0810,#080509);
+  border-right:1px solid var(--line);padding:22px 18px;display:flex;flex-direction:column;gap:16px}
+@media(max-width:900px){#rail{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line)}}
+.rl-back{font-size:13px;font-weight:600;color:var(--ink-dim);background:rgba(255,255,255,.05);
+  border:1px solid var(--line);border-radius:8px;padding:7px 11px;display:inline-block;align-self:flex-start}
+.rl-back:hover{color:var(--ink)}
+.rl-t{font-size:17px;font-weight:800;letter-spacing:-.02em;line-height:1.25}
+.rl-s{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--rose-lt)}
+.rl-prog{font-family:var(--mono);font-size:11px;color:var(--ink-faint)}
+.rl-bar{height:6px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden;margin-top:7px}
+.rl-bar i{display:block;height:100%;width:0;border-radius:99px;
+  background:linear-gradient(90deg,var(--crimson),var(--rose));transition:width .4s}
+.rl-nav{display:flex;flex-direction:column;gap:3px;margin-top:4px}
+.rl-nav a{display:flex;gap:10px;align-items:baseline;padding:8px 10px;border-radius:8px;font-size:13.5px;
+  color:var(--ink-dim);transition:background .15s,color .15s}
+.rl-nav a:hover{background:rgba(255,255,255,.05);color:var(--ink)}
+.rl-nav a.on{background:rgba(8,120,184,.14);color:var(--ink)}
+.rl-nav .pn{font-family:var(--mono);font-size:10.5px;color:var(--ink-faint);flex:none;width:16px}
+.rl-acts{margin-top:auto;display:flex;flex-direction:column;gap:8px;padding-top:16px}
+.rl-b{font-family:var(--f);font-size:13px;font-weight:600;cursor:pointer;border-radius:9px;padding:10px 12px;
+  border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--ink-dim);text-align:left}
+.rl-b:hover{color:var(--ink);border-color:var(--line-2)}
+.rl-b.pri{background:linear-gradient(135deg,var(--crimson),var(--maroon));border-color:transparent;color:#fff}
+.rl-save{font-family:var(--mono);font-size:10.5px;color:var(--ink-faint);min-height:14px}
+.rl-save.on{color:var(--green-lt)}
+
+/* sheet */
+#main{padding:40px 44px 90px;max-width:940px}
+@media(max-width:900px){#main{padding:26px 22px 70px}}
+.wb-top{margin-bottom:34px}
+.wb-eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--rose-lt)}
+.wb-title{margin-top:12px;font-size:clamp(28px,4vw,42px);font-weight:800;letter-spacing:-.03em;line-height:1.08}
+.wb-me{margin-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:600px}
+@media(max-width:640px){.wb-me{grid-template-columns:1fr}}
+.wb-me label{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-faint);display:block;margin-bottom:6px}
+
+.wb-page{padding:30px 0 6px;border-top:1px solid var(--line);margin-top:30px}
+.wb-page:first-of-type{border-top:0;margin-top:0}
+.wb-pn{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--rose-lt)}
+.wb-h2{margin-top:8px;font-size:24px;font-weight:800;letter-spacing:-.02em;line-height:1.2}
+.wb-h3{margin-top:26px;font-size:16px;font-weight:700;color:var(--ink)}
+.wb-p{margin-top:13px;font-size:15.5px;line-height:1.65;color:var(--ink-dim)}
+.wb-p b,.wb-li b,.wb-q b{color:var(--ink)}
+.wb-li{margin-top:9px;font-size:15.5px;line-height:1.6;color:var(--ink-dim);padding-left:18px;position:relative}
+.wb-li:not(.num)::before{content:'';position:absolute;left:0;top:11px;width:6px;height:6px;border-radius:50%;background:var(--crimson)}
+.wb-li.num{display:flex;gap:11px;padding-left:0}
+.wb-num{font-family:var(--mono);font-size:12px;color:var(--rose-lt);flex:none;padding-top:2px}
+.wb-rule{height:1px;background:var(--line);margin:24px 0}
+.wb-q{margin-top:16px;padding:16px 20px;border-left:3px solid var(--crimson);background:rgba(8,120,184,.07);
+  border-radius:0 12px 12px 0;font-size:16.5px;line-height:1.6;color:var(--ink)}
+.wb-code{margin-top:14px;font-family:var(--mono);font-size:13.5px;line-height:1.7;color:var(--ink);
+  white-space:pre-wrap;background:#0C0710;border:1px solid var(--line-2);border-radius:12px;padding:16px 18px}
+code{font-family:var(--mono);font-size:.9em;color:var(--rose-lt);background:rgba(8,120,184,.13);
+  padding:2px 6px;border-radius:5px}
+.wb-ex{margin-top:24px;padding:14px 18px;background:var(--card);border:1px solid var(--line);
+  border-left:3px solid var(--rose);border-radius:0 12px 12px 0;font-size:15.5px;line-height:1.6;color:var(--ink)}
+.wb-ex-n{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--rose);margin-bottom:6px}
+
+/* fields */
+.wb-in{width:100%;font-family:var(--f);font-size:15.5px;line-height:1.6;color:var(--ink);
+  background:rgba(255,255,255,.035);border:1px solid var(--line-2);border-radius:9px;padding:11px 13px;
+  outline:none;resize:vertical;transition:border-color .15s,background .15s}
+.wb-in:focus{border-color:var(--crimson);background:rgba(8,120,184,.08)}
+.wb-in.filled{border-color:rgba(61,200,115,.35)}
+.wb-in.short{width:auto;min-width:150px;flex:1;padding:7px 11px;font-size:14.5px}
+.wb-in.cell{padding:8px 10px;font-size:14px;border-radius:7px;min-width:90px}
+.wb-line{margin-top:11px;display:flex;gap:11px;align-items:flex-start}
+.wb-inline{margin-top:13px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;
+  font-size:15.5px;color:var(--ink-dim)}
+.wb-cks{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.wb-ckin{display:inline-flex;gap:8px;align-items:center;flex:1;min-width:260px}
+.wb-ck{display:inline-flex;gap:9px;align-items:flex-start;cursor:pointer;font-size:14.5px;line-height:1.5;
+  color:var(--ink-dim);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;
+  transition:border-color .15s,color .15s}
+.wb-ck:hover{border-color:var(--line-2);color:var(--ink)}
+.wb-ck input{position:absolute;opacity:0;width:0;height:0}
+.wb-box{flex:none;width:17px;height:17px;border-radius:5px;border:1.5px solid var(--line-2);margin-top:2px;
+  position:relative;transition:background .15s,border-color .15s}
+.wb-ck input:checked ~ .wb-box{background:var(--crimson);border-color:var(--crimson)}
+.wb-ck input:checked ~ .wb-box::after{content:'✓';position:absolute;inset:0;display:grid;place-items:center;
+  color:#fff;font-size:11px;font-weight:800}
+.wb-ck input:checked ~ span:last-child{color:var(--ink)}
+.wb-ck input:focus-visible ~ .wb-box{outline:2px solid var(--rose);outline-offset:2px}
+
+.wb-tw{margin-top:16px;overflow-x:auto}
+.wb-t{width:100%;border-collapse:collapse;font-size:14.5px;min-width:420px}
+.wb-t th{text-align:left;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--rose-lt);padding:10px 12px;border-bottom:1px solid var(--line-2);font-weight:700;white-space:nowrap}
+.wb-t td{padding:9px 12px;border-bottom:1px solid var(--line);color:var(--ink-dim);vertical-align:top;line-height:1.5}
+.wb-t td b{color:var(--ink)}
+
+/* print: their filled copy, no chrome */
+@media print{
+  @page{margin:16mm}
+  body{background:#fff;color:#111}
+  #rail,.rl-acts,.wb-noprint{display:none!important}
+  #app{display:block}
+  #main{padding:0;max-width:none}
+  .wb-page{break-inside:auto;page-break-before:always;border-top:0}
+  .wb-page:first-of-type{page-break-before:avoid}
+  .wb-title,.wb-h2,.wb-h3,.wb-p,.wb-li,.wb-q,.wb-t td,.wb-ex{color:#111}
+  /* bold inherits the dark-theme ink and disappears on paper */
+  .wb-p b,.wb-li b,.wb-q b,.wb-ex b,.wb-t td b,.wb-inline b,b{color:#000}
+  em{color:#333}
+  .wb-ck input:checked ~ span:last-child{color:#111}
+  /* keep a rule to write on if somebody prints a blank copy */
+  .wb-in.cell{border-bottom:1px solid #bbb;min-height:20px}
+  .wb-inline{color:#111}
+  .wb-pn,.wb-eyebrow,.wb-ex-n,.wb-t th{color:#555}
+  .wb-num{color:#111}
+  .wb-li:not(.num)::before{background:#111}
+  .wb-in{background:#fff;border:0;border-bottom:1px solid #999;border-radius:0;color:#111;padding:2px 0}
+  .wb-in.cell{border-bottom:0}
+  .wb-q{background:#F4F4F5;border-left:3px solid #666}
+  .wb-code{background:#F4F4F5;border:1px solid #ccc;color:#111}
+  code{background:#EEE;color:#111}
+  .wb-ck{background:#fff;border:0;padding:2px 10px 2px 0}
+  .wb-box{border:1px solid #666}
+  .wb-ck input:checked ~ .wb-box{background:#111;border-color:#111}
+  .wb-ex{background:#F7F7F8;border:1px solid #ddd;border-left:3px solid #666}
+  textarea{overflow:visible}
+}
+
+</style>
+</head>
+<body>
+<div id="app">
+  <nav id="rail" class="wb-noprint">
+    <a class="rl-back" href="coded-ada-day-3.html">&larr; Day 3</a>
+    <div>
+      <div class="rl-s">Workbook &middot; Day 3</div>
+      <div class="rl-t">From Knowledge to Wisdom</div>
+    </div>
+    <div>
+      <div class="rl-prog" id="cnt">0 filled</div>
+      <div class="rl-bar"><i id="bar"></i></div>
+    </div>
+    <div class="rl-nav">
+<a href="#page-1"><span class="pn">1</span><span>Block 1: The dashboard nobody could use</span></a>
+<a href="#page-2"><span class="pn">2</span><span>Blocks 2 and 3: What a dashboard is for</span></a>
+<a href="#page-3"><span class="pn">3</span><span>Block 5: Which chart, and when</span></a>
+<a href="#page-4"><span class="pn">4</span><span>Block 6: Eight claims, eight charts</span></a>
+<a href="#page-5"><span class="pn">5</span><span>Blocks 8 and 9: The capstone</span></a>
+<a href="#page-6"><span class="pn">6</span><span>Block 11: The gallery walk</span></a>
+<a href="#page-7"><span class="pn">7</span><span>Block 12: The fix pass</span></a>
+<a href="#page-8"><span class="pn">8</span><span>Day 3 key takeaways</span></a>
+    </div>
+    <div class="rl-acts">
+      <div class="rl-save" id="saved">Saves on this device as you type</div>
+      <button class="rl-b pri" id="btnPrint">Print or save as PDF</button>
+      <button class="rl-b" id="btnDl">Download my answers</button>
+      <button class="rl-b" id="btnClear">Clear this workbook</button>
+    </div>
+  </nav>
+
+  <main id="main">
+    <div class="wb-top">
+      <div class="wb-eyebrow">CODED &times; KJO &middot; Participant workbook</div>
+      <h1 class="wb-title">Day 3. From Knowledge to Wisdom</h1>
+      <div class="wb-me">
+        <div><label for="nameField">Your name</label>
+          <input class="wb-in" id="nameField" data-f="1" type="text" autocomplete="name"></div>
+        <div><label for="teamField">Your team</label>
+          <input class="wb-in" id="teamField" data-f="1" type="text" autocomplete="off"></div>
+      </div>
+    </div>
+
+<div class="wb-p"><b>What you leave with today</b></div>
+<div class="wb-li num"><span class="wb-num">1</span><span>A rule for picking the chart, that fits on five lines.</span></div>
+<div class="wb-li num"><span class="wb-num">2</span><span>A dashboard built from a file you had never seen, in sixty minutes.</span></div>
+<div class="wb-li num"><span class="wb-num">3</span><span>Proof that a stranger could read it without you in the room.</span></div>
+<div class="wb-rule"></div>
+<h2 class="wb-h2">Words used today</h2>
+<div class="wb-li"><b>Dashboard:</b> the smallest set of charts that answers one decision. Not a report of everything in the file.</div>
+<div class="wb-li"><b>The Monday question:</b> the one decision your reader has to make. Every chart earns its place by helping with it.</div>
+<div class="wb-li"><b>Cold read:</b> somebody who was not there tells you what your dashboard says. <b>You are not allowed to speak.</b></div>
+<div class="wb-li"><b>Sorted by size:</b> largest first. Not alphabetical, which is what the tool does by default.</div>
+<div class="wb-rule"></div>
+<section class="wb-page" id="page-1"><div class="wb-pn">Page 1</div><h2 class="wb-h2">Block 1: The dashboard nobody could use</h2>
+<div class="wb-p"><b>On screen:</b> four charts and four numbers. Every one of them is arithmetically correct.</div>
+<div class="wb-p"><b>The question:</b></div>
+<blockquote class="wb-q"><b>Which chart tells you where to send the engineer on Monday?</b></blockquote>
+<div class="wb-p"><b>Your answer:</b></div>
+<div class="wb-line"><textarea class="wb-in" id="d3-p1-1" data-f="1" rows="1"></textarea></div>
+<div class="wb-rule"></div>
+<h3 class="wb-h3">What was wrong with it</h3>
+<div class="wb-p">Write what you noticed. <b>Not what was ugly. What stopped you answering the question.</b></div>
+<div class="wb-line"><span class="wb-num">1</span><textarea class="wb-in" id="d3-p1-2" data-f="1" rows="1"></textarea></div>
+<div class="wb-line"><span class="wb-num">2</span><textarea class="wb-in" id="d3-p1-3" data-f="1" rows="1"></textarea></div>
+<div class="wb-line"><span class="wb-num">3</span><textarea class="wb-in" id="d3-p1-4" data-f="1" rows="1"></textarea></div>
+<div class="wb-rule"></div>
+<blockquote class="wb-q"><b>Every number is right. Nobody can use it.</b><br>Those two facts live together comfortably, and that is the whole of today.</blockquote>
+<div class="wb-p"><b>Where have you seen this shape before?</b></div>
+<div class="wb-line"><textarea class="wb-in" id="d3-p1-5" data-f="1" rows="1"></textarea></div>
+<div class="wb-rule"></div>
+</section>
+<section class="wb-page" id="page-2"><div class="wb-pn">Page 2</div><h2 class="wb-h2">Blocks 2 and 3: What a dashboard is for</h2>
+<blockquote class="wb-q"><b>A dashboard is not a report of everything in the file.</b><br><b>It is the smallest set of charts that answers one decision.</b></blockquote>
+<div class="wb-p">Reports answer <em>what happened</em>. Dashboards answer <em>what do I do</em>.</div>
+<div class="wb-p"><b>Every chart answers exactly one question.</b> If a chart answers no question, delete it. If it answers three, split it.</div>
+<div class="wb-rule"></div>
+<h3 class="wb-h3">The three failures</h3>
+<div class="wb-tw"><table class="wb-t"><thead><tr><th>Failure</th><th>What it looks like</th></tr></thead><tbody><tr><td><b>The chart with no question</b></td><td>It is there because the field existed</td></tr><tr><td><b>The title that names a field</b></td><td>"Count of RequestID by Branch" describes the axes. It says nothing</td></tr><tr><td><b>The unsorted comparison</b></td><td>Alphabetical bars, so the worst performer sits wherever the alphabet put it</td></tr></tbody></table></div>
+<div class="wb-rule"></div>
+<div class="wb-ex"><span class="wb-ex-n">Exercise 3.1.</span>For each chart on the bad dashboard, write two lines.</div>
+<div class="wb-tw"><table class="wb-t"><thead><tr><th>The chart</th><th>The question it <em>should</em> answer</th><th>Does it? Why</th></tr></thead><tbody><tr><td>Count by Branch</td><td><input class="wb-in cell" id="d3-p2-6" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d3-p2-7" data-f="1" type="text" autocomplete="off"></td></tr><tr><td>Count by Vendor (pie)</td><td><input class="wb-in cell" id="d3-p2-8" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d3-p2-9" data-f="1" type="text" autocomplete="off"></td></tr><tr><td>Count by Month</td><td><input class="wb-in cell" id="d3-p2-10" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d3-p2-11" data-f="1" type="text" autocomplete="off"></td></tr><tr><td>Avg Satisfaction by Branch</td><td><input class="wb-in cell" id="d3-p2-12" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d3-p2-13" data-f="1" type="text" autocomplete="off"></td></tr></tbody></table></div>
+<div class="wb-inline"><span><b>Which one would you keep?</b></span><input class="wb-in short" id="d3-p2-14" data-f="1" type="text" autocomplete="off"></div>
+<div class="wb-inline"><span><b>Which chart is missing?</b></span><input class="wb-in short" id="d3-p2-15" data-f="1" type="text" autocomplete="off"></div>
+<div class="wb-rule"></div>
+</section>
+<section class="wb-page" id="page-3"><div class="wb-pn">Page 3</div><h2 class="wb-h2">Block 5: Which chart, and when</h2>
+<h3 class="wb-h3">The decision rule</h3>
+<div class="wb-tw"><table class="wb-t"><thead><tr><th>Your claim is about</th><th>Draw</th></tr></thead><tbody><tr><td>Comparing amounts across groups</td><td><b>Bar chart, sorted by size</b></td></tr><tr><td>Change over time</td><td><b>Line chart</b></td></tr><tr><td>A relationship between two numbers</td><td><b>Scatter plot</b></td></tr><tr><td>Part of a whole, four groups or fewer</td><td><b>Bar chart, still. Not a pie</b></td></tr><tr><td>One number that matters on its own</td><td><b>No chart. Say the number</b></td></tr></tbody></table></div>
+<div class="wb-p"><b>The chart follows the claim.</b> You do not pick a chart and then find something to put in it.</div>
+<div class="wb-rule"></div>
+<h3 class="wb-h3">The title is where the finding goes</h3>
+<div class="wb-tw"><table class="wb-t"><thead><tr><th>Title</th><th>What it does</th></tr></thead><tbody><tr><td>"Count of RequestID by Branch"</td><td>Names the axes. The reader does the work</td></tr><tr><td>"Requests by Branch"</td><td>Shorter. Same problem</td></tr><tr><td><b>"Central Branch carries a quarter of all requests"</b></td><td>States the finding. The reader is done</td></tr></tbody></table></div>
+<blockquote class="wb-q"><b>If your title could sit on top of any chart in the file without changing, it is not a title. It is a label.</b></blockquote>
+<div class="wb-rule"></div>
+<h3 class="wb-h3">Three smaller things</h3>
+<div class="wb-li"><b>Start bar chart axes at zero.</b> A truncated axis makes a two percent difference look like a crisis.</div>
+<div class="wb-li"><b>Put the row count on the dashboard.</b> You have been writing it down for two days.</div>
+<div class="wb-li"><b>Color is for one thing at a time.</b> If everything is highlighted, nothing is.</div>
+<div class="wb-inline"><span><b>Where does the rule break?</b></span><input class="wb-in short" id="d3-p3-16" data-f="1" type="text" autocomplete="off"></div>
+<div class="wb-rule"></div>
+</section>
+<section class="wb-page" id="page-4"><div class="wb-pn">Page 4</div><h2 class="wb-h2">Block 6: Eight claims, eight charts</h2>
+<div class="wb-p"><b>Every claim on the card is true.</b> For each one, name the chart and write the title.</div>
+<div class="wb-tw"><table class="wb-t"><thead><tr><th>#</th><th>Your chart</th><th>Your title</th></tr></thead><tbody><tr><td>1</td><td><input class="wb-in cell" id="d3-p4-17" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d3-p4-18" data-f="1" type="text" autocomplete="off"></td></tr><tr><td>2</td><td><input class="wb-in cell" id="d3-p4-19" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d3-p4-20" data-f="1" type="text" autocomplete="off"></td></tr><tr><td>3</td><td><input class="wb-in cell" id="d3-p4-21" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d3-p4-22" data-f="1" type="text" autocomplete="off"></td></tr><tr><td>4</td><td><input class="wb-in cell" id="d3-p4-23" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d3-p4-24" data-f="1" type="text" autocomplete="off"></td></tr><tr><td>5</td><td><input class="wb-in cell" id="d3-p4-25" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d3-p4-26" data-f="1" type="text" autocomplete="off"></td></tr><tr><td>6</td><td><input class="wb-in cell" id="d3-p4-27" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d3-p4-28" data-f="1" type="text" autocomplete="off"></td></tr><tr><td>7</td><td><input class="wb-in cell" id="d3-p4-29" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d3-p4-30" data-f="1" type="text" autocomplete="off"></td></tr><tr><td>8</td><td><input class="wb-in cell" id="d3-p4-31" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d3-p4-32" data-f="1" type="text" autocomplete="off"></td></tr></tbody></table></div>
+<div class="wb-inline"><span><b>How many of your eight titles named a field instead of stating a finding?</b></span><input class="wb-in short" id="d3-p4-33" data-f="1" type="text" autocomplete="off"></div>
+<div class="wb-p"><b>The two that separate the room:</b></div>
+<div class="wb-p"><b>Claim 3</b> is the only relationship in the set. A bar chart cannot show it.</div>
+<div class="wb-p"><b>Claim 6</b> needs no chart at all. A bar chart with one tall bar is a picture of a sentence.</div>
+<div class="wb-rule"></div>
+</section>
+<section class="wb-page" id="page-5"><div class="wb-pn">Page 5</div><h2 class="wb-h2">Blocks 8 and 9: The capstone</h2>
+<h3 class="wb-h3">The brief</h3>
+<blockquote class="wb-q"><b>Your reader:</b> a branch operations manager. Has eleven minutes. Was not in this room.<br><b>The decision:</b> where to put the next engineer.<br><b>Deliver:</b> no more than four charts, and one sentence at the top saying what it means.</blockquote>
+<div class="wb-p"><b>Every chart needs:</b> a title that states a finding, a sensible sort, and a row count on the page.</div>
+<div class="wb-p"><b>Beside it:</b> your change log. What you cleaned and why.</div>
+<div class="wb-rule"></div>
+<div class="wb-p"><b>Clean it first.</b> You will want to skip that and go to the charts.</div>
+<div class="wb-rule"></div>
+<div class="wb-ex"><span class="wb-ex-n">Exercise 9.1.</span>Before you build anything, run the check from yesterday.</div>
+<div class="wb-tw"><table class="wb-t"><thead><tr><th>The question</th><th>Columns it needs</th><th>Rows with all of them</th><th>GO / STOP</th></tr></thead><tbody><tr><td><input class="wb-in cell" id="d3-p5-34" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d3-p5-35" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d3-p5-36" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d3-p5-37" data-f="1" type="text" autocomplete="off"></td></tr><tr><td><input class="wb-in cell" id="d3-p5-38" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d3-p5-39" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d3-p5-40" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d3-p5-41" data-f="1" type="text" autocomplete="off"></td></tr><tr><td><input class="wb-in cell" id="d3-p5-42" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d3-p5-43" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d3-p5-44" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d3-p5-45" data-f="1" type="text" autocomplete="off"></td></tr><tr><td><input class="wb-in cell" id="d3-p5-46" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d3-p5-47" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d3-p5-48" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d3-p5-49" data-f="1" type="text" autocomplete="off"></td></tr></tbody></table></div>
+<div class="wb-rule"></div>
+<div class="wb-ex"><span class="wb-ex-n">Exercise 9.2.</span>Your change log.</div>
+<div class="wb-tw"><table class="wb-t"><thead><tr><th>What you did</th><th>Rows affected</th><th>Why</th></tr></thead><tbody><tr><td><input class="wb-in cell" id="d3-p5-50" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d3-p5-51" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d3-p5-52" data-f="1" type="text" autocomplete="off"></td></tr><tr><td><input class="wb-in cell" id="d3-p5-53" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d3-p5-54" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d3-p5-55" data-f="1" type="text" autocomplete="off"></td></tr><tr><td><input class="wb-in cell" id="d3-p5-56" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d3-p5-57" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d3-p5-58" data-f="1" type="text" autocomplete="off"></td></tr><tr><td><input class="wb-in cell" id="d3-p5-59" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d3-p5-60" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d3-p5-61" data-f="1" type="text" autocomplete="off"></td></tr></tbody></table></div>
+<div class="wb-p"><b>One decision you are not certain about:</b></div>
+<div class="wb-line"><textarea class="wb-in" id="d3-p5-62" data-f="1" rows="1"></textarea></div>
+<div class="wb-rule"></div>
+<div class="wb-ex"><span class="wb-ex-n">Exercise 9.3.</span>The sentence at the top of your dashboard.</div>
+<div class="wb-line"><textarea class="wb-in" id="d3-p5-63" data-f="1" rows="1"></textarea></div>
+<div class="wb-line"><textarea class="wb-in" id="d3-p5-64" data-f="1" rows="1"></textarea></div>
+<div class="wb-p"><b>Write this one even if you run out of time. It is the part that gets skipped.</b></div>
+<div class="wb-rule"></div>
+</section>
+<section class="wb-page" id="page-6"><div class="wb-pn">Page 6</div><h2 class="wb-h2">Block 11: The gallery walk</h2>
+<div class="wb-p"><b>The rule: you stay silent at your own dashboard.</b></div>
+<div class="wb-p"><b>If you have to explain it, it did not work. Your reader will not have you.</b></div>
+<div class="wb-li"><b>Green note:</b> what you think this dashboard is telling you. One sentence, your own words.</div>
+<div class="wb-li"><b>Orange note:</b> the one thing you would change.</div>
+<div class="wb-rule"></div>
+<div class="wb-ex"><span class="wb-ex-n">Exercise 11.1.</span>Read the green notes left on your own dashboard.</div>
+<div class="wb-p"><b>What they thought it said:</b></div>
+<div class="wb-line"><textarea class="wb-in" id="d3-p6-65" data-f="1" rows="1"></textarea></div>
+<div class="wb-line"><textarea class="wb-in" id="d3-p6-66" data-f="1" rows="1"></textarea></div>
+<div class="wb-p"><b>What you meant it to say:</b></div>
+<div class="wb-line"><textarea class="wb-in" id="d3-p6-67" data-f="1" rows="1"></textarea></div>
+<div class="wb-line"><textarea class="wb-in" id="d3-p6-68" data-f="1" rows="1"></textarea></div>
+<div class="wb-p"><b>The gap between those two lines is the only part of this job the tool cannot do for you.</b></div>
+<div class="wb-rule"></div>
+<div class="wb-p"><b>The orange notes you got:</b></div>
+<div class="wb-line"><span class="wb-num">1</span><textarea class="wb-in" id="d3-p6-69" data-f="1" rows="1"></textarea></div>
+<div class="wb-line"><span class="wb-num">2</span><textarea class="wb-in" id="d3-p6-70" data-f="1" rows="1"></textarea></div>
+<div class="wb-line"><span class="wb-num">3</span><textarea class="wb-in" id="d3-p6-71" data-f="1" rows="1"></textarea></div>
+<div class="wb-rule"></div>
+</section>
+<section class="wb-page" id="page-7"><div class="wb-pn">Page 7</div><h2 class="wb-h2">Block 12: The fix pass</h2>
+<div class="wb-p"><b>Make one change. One, not four.</b></div>
+<div class="wb-inline"><span><b>The change I made:</b></span><input class="wb-in short" id="d3-p7-72" data-f="1" type="text" autocomplete="off"></div>
+<div class="wb-rule"></div>
+<div class="wb-p"><b>My old title:</b></div>
+<div class="wb-line"><textarea class="wb-in" id="d3-p7-73" data-f="1" rows="1"></textarea></div>
+<div class="wb-p"><b>My new title:</b></div>
+<div class="wb-line"><textarea class="wb-in" id="d3-p7-74" data-f="1" rows="1"></textarea></div>
+<div class="wb-rule"></div>
+<div class="wb-p"><b>Most titles got shorter and more specific.</b> That is what happened to your prompts on Monday afternoon, and to your findings yesterday. <b>The pattern has been the same for three days, in three different places.</b></div>
+<div class="wb-rule"></div>
+</section>
+<section class="wb-page" id="page-8"><div class="wb-pn">Page 8</div><h2 class="wb-h2">Day 3 key takeaways</h2>
+<div class="wb-p"><b>Write these in your own words.</b></div>
+<div class="wb-line"><span class="wb-num">1</span><textarea class="wb-in" id="d3-p8-75" data-f="1" rows="1"></textarea></div>
+<div class="wb-line"><span class="wb-num">2</span><textarea class="wb-in" id="d3-p8-76" data-f="1" rows="1"></textarea></div>
+<div class="wb-line"><span class="wb-num">3</span><textarea class="wb-in" id="d3-p8-77" data-f="1" rows="1"></textarea></div>
+<div class="wb-rule"></div>
+<h3 class="wb-h3">The ladder, and what you did on each rung</h3>
+<div class="wb-tw"><table class="wb-t"><thead><tr><th>Rung</th><th>What you built</th></tr></thead><tbody><tr><td><b>Data</b></td><td>Monday afternoon. Forty rows, eleven things wrong, and a change log that says why</td></tr><tr><td><b>Information</b></td><td>Tuesday morning. The tool was right four times, then dropped 14 percent without a word</td></tr><tr><td><b>Knowledge</b></td><td>Tuesday afternoon. One number, four neighbours, and a card saying which one matters</td></tr><tr><td><b>Wisdom</b></td><td>Today. A file you had never seen, and a dashboard a stranger could read</td></tr></tbody></table></div>
+<div class="wb-rule"></div>
+<h3 class="wb-h3">One line held all three days</h3>
+<blockquote class="wb-q"><b>The prompt is the product.</b></blockquote>
+<div class="wb-p">Monday: same file, two prompts, two different dashboards.</div>
+<div class="wb-p">Tuesday: three lines added to a question, and a hidden trap became visible.</div>
+<div class="wb-p">Today: same charts, different titles, and one of them a stranger could read.</div>
+<div class="wb-p"><b>The work was never in the tool. It was in what you asked it for, and how precisely you asked.</b> That does not change when the models change, and they will change.</div>
+<div class="wb-rule"></div>
+<h3 class="wb-h3">The honest limit</h3>
+<div class="wb-p">Three days does not make you a data analyst.</div>
+<div class="wb-p"><b>It makes you someone who can no longer be handed a number and be quiet about it.</b> That is worth more than it sounds.</div>
+<div class="wb-rule"></div>
+<h3 class="wb-h3">Three things go back to work with you</h3>
+<div class="wb-cks"><label class="wb-ck"><input type="checkbox" id="d3-p8-78" data-f="1"><span class="wb-box"></span><span><b>The five-part prompt sheet.</b> Use it Sunday morning on something real.</span></label></div>
+<div class="wb-cks"><label class="wb-ck"><input type="checkbox" id="d3-p8-79" data-f="1"><span class="wb-box"></span><span><b>The row count habit.</b> Ask for it every time, not on the hard ones.</span></label></div>
+<div class="wb-cks"><label class="wb-ck"><input type="checkbox" id="d3-p8-80" data-f="1"><span class="wb-box"></span><span><b>The Monday question.</b> Before you build anything, write down the decision it is for.</span></label></div>
+<div class="wb-rule"></div>
+<h3 class="wb-h3">What you are taking home</h3>
+<div class="wb-cks"><label class="wb-ck"><input type="checkbox" id="d3-p8-81" data-f="1"><span class="wb-box"></span><span>Your change log from Day 1</span></label></div>
+<div class="wb-cks"><label class="wb-ck"><input type="checkbox" id="d3-p8-82" data-f="1"><span class="wb-box"></span><span>Your Comparison card from Day 2</span></label></div>
+<div class="wb-cks"><label class="wb-ck"><input type="checkbox" id="d3-p8-83" data-f="1"><span class="wb-box"></span><span>Your dashboard from today</span></label></div>
+<div class="wb-p"><b>Those are yours, and they are evidence.</b></div>
+<div class="wb-rule"></div>
+<h3 class="wb-h3">Open notes</h3>
+<div class="wb-line"><textarea class="wb-in" id="d3-p8-84" data-f="1" rows="1"></textarea></div>
+<div class="wb-line"><textarea class="wb-in" id="d3-p8-85" data-f="1" rows="1"></textarea></div>
+<div class="wb-line"><textarea class="wb-in" id="d3-p8-86" data-f="1" rows="1"></textarea></div>
+<div class="wb-line"><textarea class="wb-in" id="d3-p8-87" data-f="1" rows="1"></textarea></div>
+</section>
+  </main>
+</div>
+<script>
+var DAY = 3;
+var WBTITLE = "AI-Powered Data Analysis - Day 3: From Knowledge to Wisdom - Participant Workbook";
+
+(function(){
+  var KEY = 'ada_workbook_' + DAY, saveT = null;
+  var fields = [].slice.call(document.querySelectorAll('[data-f]'));
+
+  function load(){
+    var d = {};
+    try { d = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e){ d = {}; }
+    fields.forEach(function(f){
+      if (!(f.id in d)) return;
+      if (f.type === 'checkbox') f.checked = !!d[f.id]; else f.value = d[f.id];
+    });
+    fields.forEach(fit); mark();
+  }
+  function save(){
+    var d = {};
+    fields.forEach(function(f){
+      var v = f.type === 'checkbox' ? f.checked : f.value;
+      if (v !== '' && v !== false) d[f.id] = v;
+    });
+    try { localStorage.setItem(KEY, JSON.stringify(d)); } catch(e){}
+    var el = document.getElementById('saved');
+    if (el){
+      var t = new Date();
+      el.textContent = 'Saved · ' + String(t.getHours()).padStart(2,'0') + ':' + String(t.getMinutes()).padStart(2,'0');
+      el.classList.add('on');
+      setTimeout(function(){ el.classList.remove('on'); }, 1400);
+    }
+    mark();
+  }
+  function queue(){ if (saveT) clearTimeout(saveT); saveT = setTimeout(save, 500); }
+  function fit(f){
+    if (f.tagName !== 'TEXTAREA') return;
+    f.style.height = 'auto'; f.style.height = Math.max(44, f.scrollHeight) + 'px';
+  }
+  function mark(){
+    var done = 0;
+    fields.forEach(function(f){
+      var on = f.type === 'checkbox' ? f.checked : f.value.trim() !== '';
+      if (on) done++;
+      if (f.classList) f.classList.toggle('filled', on && f.type !== 'checkbox');
+    });
+    var p = fields.length ? Math.round(done / fields.length * 100) : 0;
+    var b = document.getElementById('bar'), c = document.getElementById('cnt');
+    if (b) b.style.width = p + '%';
+    if (c) c.textContent = done + ' of ' + fields.length + ' filled';
+  }
+
+  fields.forEach(function(f){
+    f.addEventListener('input', function(){ fit(f); queue(); });
+    f.addEventListener('change', queue);
+  });
+  load();
+
+  /* rail: highlight the page you are on */
+  var links = [].slice.call(document.querySelectorAll('.rl-nav a'));
+  var pages = [].slice.call(document.querySelectorAll('.wb-page'));
+  function onScroll(){
+    var y = window.scrollY + 120, cur = pages[0];
+    pages.forEach(function(p){ if (p.offsetTop <= y) cur = p; });
+    links.forEach(function(a){ a.classList.toggle('on', cur && a.getAttribute('href') === '#' + cur.id); });
+  }
+  window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+  /* work out what question an answer belongs to, so the export reads as a document */
+  function label(f){
+    if (f.type === 'checkbox') return '';
+    var inl = f.closest('.wb-inline');
+    if (inl) return inl.querySelector('span').textContent.trim() + ' ';
+    var td = f.closest('td');
+    if (td){
+      var tr = td.parentNode, tbl = td.closest('table');
+      var idx = [].indexOf.call(tr.children, td);
+      var head = tbl.querySelectorAll('thead th')[idx];
+      var first = tr.children[0];
+      var col = head ? head.textContent.trim() : '';
+      var row = (first && first !== td) ? first.textContent.trim() : '';
+      return (row ? row + ' / ' : '') + (col ? col + ': ' : '');
+    }
+    /* walk back for the nearest prompt above this field */
+    var n = f.closest('.wb-line') || f;
+    while ((n = n.previousElementSibling)){
+      if (n.matches('.wb-p, .wb-h3, .wb-ex, .wb-q')){
+        var t = (n.matches('.wb-ex')
+                  ? (n.querySelector('.wb-ex-n').textContent.trim() + ' ' +
+                     n.textContent.replace(n.querySelector('.wb-ex-n').textContent, '').trim())
+                  : n.textContent).replace(/\s+/g,' ').trim();
+        return t.length > 110 ? '' : t + '\n  ';
+      }
+      if (n.matches('.wb-line, .wb-tw, .wb-cks, .wb-rule')) break;
+    }
+    return '';
+  }
+
+  /* take it away */
+  document.getElementById('btnPrint').onclick = function(){ window.print(); };
+  document.getElementById('btnDl').onclick = function(){
+    var out = [WBTITLE, ''.padEnd(WBTITLE.length, '='), ''];
+    document.querySelectorAll('.wb-page').forEach(function(pg){
+      var lines = [];
+      pg.querySelectorAll('[data-f]').forEach(function(f){
+        if (f.type === 'checkbox'){
+          if (f.checked) lines.push('[x] ' + f.parentNode.textContent.replace(/\s+/g,' ').trim());
+          return;
+        }
+        var v = f.value.trim();
+        if (v) lines.push(label(f) + v);
+      });
+      if (!lines.length) return;                       /* a page they left blank */
+      out.push('', 'PAGE ' + pg.querySelector('.wb-pn').textContent.replace(/^Page\s*/,''),
+               ((pg.querySelector('.wb-h2') || {}).textContent || '').trim(), '');
+      out.push.apply(out, lines);
+    });
+    var name = document.getElementById('nameField');
+    var who = name && name.value.trim() ? name.value.trim().replace(/[^\w -]/g,'') : 'workbook';
+    var blob = new Blob([out.join('\n')], {type:'text/plain;charset=utf-8'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = who + ' - Day ' + DAY + '.txt';
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 500);
+  };
+  document.getElementById('btnClear').onclick = function(){
+    if (!confirm('Clear everything you have typed in this Day ' + DAY + ' workbook? This cannot be undone.')) return;
+    try { localStorage.removeItem(KEY); } catch(e){}
+    fields.forEach(function(f){ if (f.type === 'checkbox') f.checked = false; else f.value = ''; });
+    fields.forEach(fit); mark();
+  };
+})();
+
+</script>
+</body>
+</html>

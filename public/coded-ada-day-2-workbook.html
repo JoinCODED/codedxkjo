@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 2 workbook &middot; From Data to Information , CODED &times; KJO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+
+:root{
+  --base:#0A0507; --card:#130A0C; --card-2:#190E11;
+  --ink:#F5F0F1; --ink-dim:#AEA2A5; --ink-faint:#76696C;
+  --maroon:#002539; --mid:#204898; --crimson:#0878B8; --rose:#35A7DC; --rose-lt:#C2EEFB;
+  --green:#3DC873; --green-lt:#8FE6AE; --amber:#E9C46A;
+  --line:rgba(255,255,255,.07); --line-2:rgba(255,255,255,.13);
+  --f:'Manrope',system-ui,sans-serif; --mono:'Space Mono',ui-monospace,monospace;
+  --rail:270px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:20px}
+body{background:radial-gradient(1100px 640px at 85% -8%,rgba(8,120,184,.10),transparent 60%),var(--base);
+  color:var(--ink);font-family:var(--f);-webkit-font-smoothing:antialiased;line-height:1.6}
+a{color:inherit;text-decoration:none}
+#app{display:grid;grid-template-columns:var(--rail) 1fr;min-height:100vh}
+@media(max-width:900px){#app{grid-template-columns:1fr}}
+
+/* rail */
+#rail{position:sticky;top:0;height:100vh;overflow-y:auto;background:linear-gradient(180deg,#0C0810,#080509);
+  border-right:1px solid var(--line);padding:22px 18px;display:flex;flex-direction:column;gap:16px}
+@media(max-width:900px){#rail{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line)}}
+.rl-back{font-size:13px;font-weight:600;color:var(--ink-dim);background:rgba(255,255,255,.05);
+  border:1px solid var(--line);border-radius:8px;padding:7px 11px;display:inline-block;align-self:flex-start}
+.rl-back:hover{color:var(--ink)}
+.rl-t{font-size:17px;font-weight:800;letter-spacing:-.02em;line-height:1.25}
+.rl-s{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--rose-lt)}
+.rl-prog{font-family:var(--mono);font-size:11px;color:var(--ink-faint)}
+.rl-bar{height:6px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden;margin-top:7px}
+.rl-bar i{display:block;height:100%;width:0;border-radius:99px;
+  background:linear-gradient(90deg,var(--crimson),var(--rose));transition:width .4s}
+.rl-nav{display:flex;flex-direction:column;gap:3px;margin-top:4px}
+.rl-nav a{display:flex;gap:10px;align-items:baseline;padding:8px 10px;border-radius:8px;font-size:13.5px;
+  color:var(--ink-dim);transition:background .15s,color .15s}
+.rl-nav a:hover{background:rgba(255,255,255,.05);color:var(--ink)}
+.rl-nav a.on{background:rgba(8,120,184,.14);color:var(--ink)}
+.rl-nav .pn{font-family:var(--mono);font-size:10.5px;color:var(--ink-faint);flex:none;width:16px}
+.rl-acts{margin-top:auto;display:flex;flex-direction:column;gap:8px;padding-top:16px}
+.rl-b{font-family:var(--f);font-size:13px;font-weight:600;cursor:pointer;border-radius:9px;padding:10px 12px;
+  border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--ink-dim);text-align:left}
+.rl-b:hover{color:var(--ink);border-color:var(--line-2)}
+.rl-b.pri{background:linear-gradient(135deg,var(--crimson),var(--maroon));border-color:transparent;color:#fff}
+.rl-save{font-family:var(--mono);font-size:10.5px;color:var(--ink-faint);min-height:14px}
+.rl-save.on{color:var(--green-lt)}
+
+/* sheet */
+#main{padding:40px 44px 90px;max-width:940px}
+@media(max-width:900px){#main{padding:26px 22px 70px}}
+.wb-top{margin-bottom:34px}
+.wb-eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--rose-lt)}
+.wb-title{margin-top:12px;font-size:clamp(28px,4vw,42px);font-weight:800;letter-spacing:-.03em;line-height:1.08}
+.wb-me{margin-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:600px}
+@media(max-width:640px){.wb-me{grid-template-columns:1fr}}
+.wb-me label{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-faint);display:block;margin-bottom:6px}
+
+.wb-page{padding:30px 0 6px;border-top:1px solid var(--line);margin-top:30px}
+.wb-page:first-of-type{border-top:0;margin-top:0}
+.wb-pn{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--rose-lt)}
+.wb-h2{margin-top:8px;font-size:24px;font-weight:800;letter-spacing:-.02em;line-height:1.2}
+.wb-h3{margin-top:26px;font-size:16px;font-weight:700;color:var(--ink)}
+.wb-p{margin-top:13px;font-size:15.5px;line-height:1.65;color:var(--ink-dim)}
+.wb-p b,.wb-li b,.wb-q b{color:var(--ink)}
+.wb-li{margin-top:9px;font-size:15.5px;line-height:1.6;color:var(--ink-dim);padding-left:18px;position:relative}
+.wb-li:not(.num)::before{content:'';position:absolute;left:0;top:11px;width:6px;height:6px;border-radius:50%;background:var(--crimson)}
+.wb-li.num{display:flex;gap:11px;padding-left:0}
+.wb-num{font-family:var(--mono);font-size:12px;color:var(--rose-lt);flex:none;padding-top:2px}
+.wb-rule{height:1px;background:var(--line);margin:24px 0}
+.wb-q{margin-top:16px;padding:16px 20px;border-left:3px solid var(--crimson);background:rgba(8,120,184,.07);
+  border-radius:0 12px 12px 0;font-size:16.5px;line-height:1.6;color:var(--ink)}
+.wb-code{margin-top:14px;font-family:var(--mono);font-size:13.5px;line-height:1.7;color:var(--ink);
+  white-space:pre-wrap;background:#0C0710;border:1px solid var(--line-2);border-radius:12px;padding:16px 18px}
+code{font-family:var(--mono);font-size:.9em;color:var(--rose-lt);background:rgba(8,120,184,.13);
+  padding:2px 6px;border-radius:5px}
+.wb-ex{margin-top:24px;padding:14px 18px;background:var(--card);border:1px solid var(--line);
+  border-left:3px solid var(--rose);border-radius:0 12px 12px 0;font-size:15.5px;line-height:1.6;color:var(--ink)}
+.wb-ex-n{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--rose);margin-bottom:6px}
+
+/* fields */
+.wb-in{width:100%;font-family:var(--f);font-size:15.5px;line-height:1.6;color:var(--ink);
+  background:rgba(255,255,255,.035);border:1px solid var(--line-2);border-radius:9px;padding:11px 13px;
+  outline:none;resize:vertical;transition:border-color .15s,background .15s}
+.wb-in:focus{border-color:var(--crimson);background:rgba(8,120,184,.08)}
+.wb-in.filled{border-color:rgba(61,200,115,.35)}
+.wb-in.short{width:auto;min-width:150px;flex:1;padding:7px 11px;font-size:14.5px}
+.wb-in.cell{padding:8px 10px;font-size:14px;border-radius:7px;min-width:90px}
+.wb-line{margin-top:11px;display:flex;gap:11px;align-items:flex-start}
+.wb-inline{margin-top:13px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;
+  font-size:15.5px;color:var(--ink-dim)}
+.wb-cks{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.wb-ckin{display:inline-flex;gap:8px;align-items:center;flex:1;min-width:260px}
+.wb-ck{display:inline-flex;gap:9px;align-items:flex-start;cursor:pointer;font-size:14.5px;line-height:1.5;
+  color:var(--ink-dim);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;
+  transition:border-color .15s,color .15s}
+.wb-ck:hover{border-color:var(--line-2);color:var(--ink)}
+.wb-ck input{position:absolute;opacity:0;width:0;height:0}
+.wb-box{flex:none;width:17px;height:17px;border-radius:5px;border:1.5px solid var(--line-2);margin-top:2px;
+  position:relative;transition:background .15s,border-color .15s}
+.wb-ck input:checked ~ .wb-box{background:var(--crimson);border-color:var(--crimson)}
+.wb-ck input:checked ~ .wb-box::after{content:'✓';position:absolute;inset:0;display:grid;place-items:center;
+  color:#fff;font-size:11px;font-weight:800}
+.wb-ck input:checked ~ span:last-child{color:var(--ink)}
+.wb-ck input:focus-visible ~ .wb-box{outline:2px solid var(--rose);outline-offset:2px}
+
+.wb-tw{margin-top:16px;overflow-x:auto}
+.wb-t{width:100%;border-collapse:collapse;font-size:14.5px;min-width:420px}
+.wb-t th{text-align:left;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--rose-lt);padding:10px 12px;border-bottom:1px solid var(--line-2);font-weight:700;white-space:nowrap}
+.wb-t td{padding:9px 12px;border-bottom:1px solid var(--line);color:var(--ink-dim);vertical-align:top;line-height:1.5}
+.wb-t td b{color:var(--ink)}
+
+/* print: their filled copy, no chrome */
+@media print{
+  @page{margin:16mm}
+  body{background:#fff;color:#111}
+  #rail,.rl-acts,.wb-noprint{display:none!important}
+  #app{display:block}
+  #main{padding:0;max-width:none}
+  .wb-page{break-inside:auto;page-break-before:always;border-top:0}
+  .wb-page:first-of-type{page-break-before:avoid}
+  .wb-title,.wb-h2,.wb-h3,.wb-p,.wb-li,.wb-q,.wb-t td,.wb-ex{color:#111}
+  /* bold inherits the dark-theme ink and disappears on paper */
+  .wb-p b,.wb-li b,.wb-q b,.wb-ex b,.wb-t td b,.wb-inline b,b{color:#000}
+  em{color:#333}
+  .wb-ck input:checked ~ span:last-child{color:#111}
+  /* keep a rule to write on if somebody prints a blank copy */
+  .wb-in.cell{border-bottom:1px solid #bbb;min-height:20px}
+  .wb-inline{color:#111}
+  .wb-pn,.wb-eyebrow,.wb-ex-n,.wb-t th{color:#555}
+  .wb-num{color:#111}
+  .wb-li:not(.num)::before{background:#111}
+  .wb-in{background:#fff;border:0;border-bottom:1px solid #999;border-radius:0;color:#111;padding:2px 0}
+  .wb-in.cell{border-bottom:0}
+  .wb-q{background:#F4F4F5;border-left:3px solid #666}
+  .wb-code{background:#F4F4F5;border:1px solid #ccc;color:#111}
+  code{background:#EEE;color:#111}
+  .wb-ck{background:#fff;border:0;padding:2px 10px 2px 0}
+  .wb-box{border:1px solid #666}
+  .wb-ck input:checked ~ .wb-box{background:#111;border-color:#111}
+  .wb-ex{background:#F7F7F8;border:1px solid #ddd;border-left:3px solid #666}
+  textarea{overflow:visible}
+}
+
+</style>
+</head>
+<body>
+<div id="app">
+  <nav id="rail" class="wb-noprint">
+    <a class="rl-back" href="coded-ada-day-2.html">&larr; Day 2</a>
+    <div>
+      <div class="rl-s">Workbook &middot; Day 2</div>
+      <div class="rl-t">From Data to Information</div>
+    </div>
+    <div>
+      <div class="rl-prog" id="cnt">0 filled</div>
+      <div class="rl-bar"><i id="bar"></i></div>
+    </div>
+    <div class="rl-nav">
+<a href="#page-1"><span class="pn">1</span><span>Block 1: Two hundred and fifty-seven</span></a>
+<a href="#page-2"><span class="pn">2</span><span>Block 2: Grounding</span></a>
+<a href="#page-3"><span class="pn">3</span><span>Block 5: Can this file answer that question?</span></a>
+<a href="#page-3b"><span class="pn">3b</span><span>Block 6: The fifth question</span></a>
+<a href="#page-4"><span class="pn">4</span><span>Block 6: The fix, and why it works</span></a>
+<a href="#page-5"><span class="pn">5</span><span>Blocks 7 and 9: Compared with what?</span></a>
+<a href="#page-6"><span class="pn">6</span><span>Block 11: Outlier or signal</span></a>
+<a href="#page-7"><span class="pn">7</span><span>Block 12: What it means</span></a>
+<a href="#page-8"><span class="pn">8</span><span>Day 2 key takeaways</span></a>
+    </div>
+    <div class="rl-acts">
+      <div class="rl-save" id="saved">Saves on this device as you type</div>
+      <button class="rl-b pri" id="btnPrint">Print or save as PDF</button>
+      <button class="rl-b" id="btnDl">Download my answers</button>
+      <button class="rl-b" id="btnClear">Clear this workbook</button>
+    </div>
+  </nav>
+
+  <main id="main">
+    <div class="wb-top">
+      <div class="wb-eyebrow">CODED &times; KJO &middot; Participant workbook</div>
+      <h1 class="wb-title">Day 2. From Data to Information</h1>
+      <div class="wb-me">
+        <div><label for="nameField">Your name</label>
+          <input class="wb-in" id="nameField" data-f="1" type="text" autocomplete="name"></div>
+        <div><label for="teamField">Your team</label>
+          <input class="wb-in" id="teamField" data-f="1" type="text" autocomplete="off"></div>
+      </div>
+    </div>
+
+<div class="wb-p"><b>What you leave with today</b></div>
+<div class="wb-li num"><span class="wb-num">1</span><span>A check you run before you ask anything: which columns, and how many rows have them.</span></div>
+<div class="wb-li num"><span class="wb-num">2</span><span>One number with something beside it, and the row count behind both.</span></div>
+<div class="wb-li num"><span class="wb-num">3</span><span>Your Comparison card: what it means, and what would have to be true for it to be wrong.</span></div>
+<div class="wb-rule"></div>
+<h2 class="wb-h2">Words used today</h2>
+<div class="wb-li"><b>Grounding:</b> pointing a tool at a file, instead of pasting the contents into the chat.</div>
+<div class="wb-li"><b>Track A:</b> Copilot inside Excel.</div>
+<div class="wb-li"><b>Track B:</b> Copilot Chat with the file attached, plus manual Excel steps.</div>
+<div class="wb-li"><b>Outlier:</b> a value far outside the normal range of a column.</div>
+<div class="wb-li"><b>Signal:</b> an outlier that means something about the business.</div>
+<div class="wb-li"><b>Information:</b> a number with something beside it.</div>
+<div class="wb-li"><b>Knowledge:</b> what that comparison means, and what would change if it were true.</div>
+<div class="wb-li"><b>Clean:</b> what is in the file is right. <b>Complete:</b> everything you need is there. They are not the same thing.</div>
+<div class="wb-rule"></div>
+<section class="wb-page" id="page-1"><div class="wb-pn">Page 1</div><h2 class="wb-h2">Block 1: Two hundred and fifty-seven</h2>
+<div class="wb-p">Yesterday's three artifacts:</div>
+<div class="wb-cks"><label class="wb-ck"><input type="checkbox" id="d2-p1-1" data-f="1"><span class="wb-box"></span><span>Two dashboards from one file, where the only difference was the prompt</span></label></div>
+<div class="wb-cks"><label class="wb-ck"><input type="checkbox" id="d2-p1-2" data-f="1"><span class="wb-box"></span><span>The answer board, where 15 prompts produced four different answers</span></label></div>
+<div class="wb-cks"><label class="wb-ck"><input type="checkbox" id="d2-p1-3" data-f="1"><span class="wb-box"></span><span>Your cleaned Work Order Set, with a change log beside it</span></label></div>
+<div class="wb-rule"></div>
+<blockquote class="wb-q"><b>Industrial Branch handled 257 service requests this year.</b><br><b>Is that good or bad?</b></blockquote>
+<div class="wb-p"><b>What would you need to know before you could answer?</b></div>
+<div class="wb-line"><textarea class="wb-in" id="d2-p1-4" data-f="1" rows="1"></textarea></div>
+<div class="wb-line"><textarea class="wb-in" id="d2-p1-5" data-f="1" rows="1"></textarea></div>
+<div class="wb-line"><textarea class="wb-in" id="d2-p1-6" data-f="1" rows="1"></textarea></div>
+<blockquote class="wb-q"><b>A number on its own is not information. It is just a number.</b></blockquote>
+<div class="wb-rule"></div>
+<h3 class="wb-h3">The ladder</h3>
+<div class="wb-tw"><table class="wb-t"><thead><tr><th>Rung</th><th>The question it answers</th><th>Where</th></tr></thead><tbody><tr><td><b>Data</b></td><td>What have we actually got?</td><td>Yesterday</td></tr><tr><td><b>Information</b></td><td>What does it add up to?</td><td>This morning</td></tr><tr><td><b>Knowledge</b></td><td>What does it mean, compared with what?</td><td>This afternoon</td></tr><tr><td><b>Wisdom</b></td><td>What should we show, and to whom?</td><td>Tomorrow</td></tr></tbody></table></div>
+<div class="wb-rule"></div>
+<div class="wb-ex"><span class="wb-ex-n">Exercise 1.1.</span>Yesterday's question, on the full file.</div>
+<div class="wb-p">Which site had the worst unplanned downtime last quarter? Use <code>work-orders-full.xlsx</code>.</div>
+<div class="wb-p">What happened when you tried?</div>
+<div class="wb-cks"><label class="wb-ck"><input type="checkbox" id="d2-p1-7" data-f="1"><span class="wb-box"></span><span>The tool said the data was too long</span></label></div>
+<div class="wb-cks"><label class="wb-ck"><input type="checkbox" id="d2-p1-8" data-f="1"><span class="wb-box"></span><span>The paste was cut off</span></label></div>
+<div class="wb-cks"><label class="wb-ck"><input type="checkbox" id="d2-p1-9" data-f="1"><span class="wb-box"></span><span>It answered, and said nothing about missing rows</span></label></div>
+<div class="wb-cks"><span class="wb-ckin"><label class="wb-ck"><input type="checkbox" id="d2-p1-10" data-f="1"><span class="wb-box"></span><span>Something else:</span></label><input class="wb-in short" id="d2-p1-11" data-f="1" type="text" autocomplete="off"></span></div>
+<div class="wb-p"><b>Did the tool tell you how many rows it used?</b></div><div class="wb-cks"><label class="wb-ck"><input type="checkbox" id="d2-p1-12" data-f="1"><span class="wb-box"></span><span>Yes</span></label><label class="wb-ck"><input type="checkbox" id="d2-p1-13" data-f="1"><span class="wb-box"></span><span>No</span></label></div>
+<div class="wb-rule"></div>
+</section>
+<section class="wb-page" id="page-2"><div class="wb-pn">Page 2</div><h2 class="wb-h2">Block 2: Grounding</h2>
+<h3 class="wb-h3">The problem</h3>
+<div class="wb-p">Every file at your desk is this size or bigger. Yesterday's method was practice.</div>
+<h3 class="wb-h3">The issue</h3>
+<div class="wb-p">A model holds a limited amount of text in view at once. That limit is the <b>context window</b>. Paste more than fits and the earlier part falls out of view. <b>The tool does not stop. It answers using what it can still see.</b></div>
+<h3 class="wb-h3">The concept</h3>
+<blockquote class="wb-q"><b>Grounding: you point the tool at the file instead of pasting the file into the tool.</b></blockquote>
+<div class="wb-p">Three things change. It sees every row. It knows which column holds a date and which holds text. <b>It can count.</b></div>
+<div class="wb-p">Yesterday you learned that a model predicts rather than computes. <b>A grounded tool runs real operations on a real table.</b> That is why the dashboard you saw yesterday morning had numbers you could trust.</div>
+<div class="wb-rule"></div>
+<h3 class="wb-h3">The fix: two routes</h3>
+<div class="wb-tw"><table class="wb-t"><thead><tr><th></th><th>Track A: Copilot in Excel</th><th>Track B: Copilot Chat with file</th></tr></thead><tbody><tr><td>Where you work</td><td>Inside the workbook</td><td>In the browser</td></tr><tr><td>Writes back into your file</td><td>Yes</td><td>No, you copy across</td></tr><tr><td>Best for</td><td>Adding columns, tables, dashboards</td><td>Explaining a decision, writing your three sentences</td></tr><tr><td>Needs</td><td>A Copilot license for Excel</td><td>The file attached to the chat</td></tr></tbody></table></div>
+<div class="wb-p"><b>Which track do you have today?</b></div><div class="wb-cks"><label class="wb-ck"><input type="checkbox" id="d2-p2-14" data-f="1"><span class="wb-box"></span><span>A</span></label><label class="wb-ck"><input type="checkbox" id="d2-p2-15" data-f="1"><span class="wb-box"></span><span>B</span></label><label class="wb-ck"><input type="checkbox" id="d2-p2-16" data-f="1"><span class="wb-box"></span><span>Both</span></label></div>
+<div class="wb-rule"></div>
+<h3 class="wb-h3">Worked grounding prompt</h3>
+<pre class="wb-code">You are a maintenance data analyst.
+I have attached a work order file. Each row is one work order.
+
+Before answering, state:
+- the number of rows you can see
+- the date range and which column holds it
+
+Then answer this question:
+[your question here]
+
+With your answer, state the number of rows you used and the number
+you excluded. For every excluded row, say why.</pre>
+<div class="wb-p"><b>Grounding does not replace the verification ask. It makes the verification ask answerable.</b></div>
+<div class="wb-rule"></div>
+<h3 class="wb-h3">In depth: what grounding does not fix</h3>
+<div class="wb-li">It still does not know what your data <b>means</b>. It will confidently analyze a column it has misread.</div>
+<div class="wb-li">Track A needs the data as a table and works best on one sheet.</div>
+<div class="wb-li">Track B cannot write into your workbook, so you copy results across by hand. That is where transcription errors enter.</div>
+<div class="wb-li"><b>A grounded tool is right far more often. Your trust in it will rise. Page 3 is about what that costs you.</b></div>
+<div class="wb-rule"></div>
+</section>
+<section class="wb-page" id="page-3"><div class="wb-pn">Page 3</div><h2 class="wb-h2">Block 5: Can this file answer that question?</h2>
+<div class="wb-p"><b>Before you ask the tool anything, you ask yourself two things.</b></div>
+<blockquote class="wb-q"><b>1. Which columns does this question need?</b> Name every one of them.<br><b>2. How many rows have all of them filled in?</b> Not the file's row count. The count for <em>these</em> columns.</blockquote>
+<div class="wb-inline"><span><b>My confidence in this tool right now, out of 10:</b></span><input class="wb-in short" id="d2-p3-17" data-f="1" type="text" autocomplete="off"></div>
+<div class="wb-rule"></div>
+<div class="wb-ex"><span class="wb-ex-n">Exercise 5.1.</span>The columns in <code>work-orders-full.xlsx</code>. Fill this in from the check card.</div>
+<div class="wb-tw"><table class="wb-t"><thead><tr><th>Column</th><th>Rows filled</th><th>Column</th><th>Rows filled</th></tr></thead><tbody><tr><td><code>WorkOrderID</code></td><td><input class="wb-in cell" id="d2-p3-18" data-f="1" type="text" autocomplete="off"></td><td><code>CloseDate</code></td><td><input class="wb-in cell" id="d2-p3-19" data-f="1" type="text" autocomplete="off"></td></tr><tr><td><code>Site</code></td><td><input class="wb-in cell" id="d2-p3-20" data-f="1" type="text" autocomplete="off"></td><td><code>DowntimeHours</code></td><td><input class="wb-in cell" id="d2-p3-21" data-f="1" type="text" autocomplete="off"></td></tr><tr><td><code>Asset</code></td><td><input class="wb-in cell" id="d2-p3-22" data-f="1" type="text" autocomplete="off"></td><td><code>Cost_KWD</code></td><td><input class="wb-in cell" id="d2-p3-23" data-f="1" type="text" autocomplete="off"></td></tr><tr><td><code>Priority</code></td><td><input class="wb-in cell" id="d2-p3-24" data-f="1" type="text" autocomplete="off"></td><td><code>Contractor</code></td><td><input class="wb-in cell" id="d2-p3-25" data-f="1" type="text" autocomplete="off"></td></tr><tr><td><code>RaisedDate</code></td><td><input class="wb-in cell" id="d2-p3-26" data-f="1" type="text" autocomplete="off"></td><td><b>Total rows</b></td><td><input class="wb-in cell" id="d2-p3-27" data-f="1" type="text" autocomplete="off"></td></tr></tbody></table></div>
+<div class="wb-inline"><span><b>Which column is not like the others?</b></span><input class="wb-in short" id="d2-p3-28" data-f="1" type="text" autocomplete="off"></div>
+<div class="wb-rule"></div>
+<div class="wb-ex"><span class="wb-ex-n">Exercise 5.2.</span>Your own questions. Run the check <em>before</em> you open anything.</div>
+<div class="wb-tw"><table class="wb-t"><thead><tr><th>The question you want answered</th><th>Columns it needs</th><th>Rows with all of them</th><th>GO / STOP</th></tr></thead><tbody><tr><td><input class="wb-in cell" id="d2-p3-29" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d2-p3-30" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d2-p3-31" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d2-p3-32" data-f="1" type="text" autocomplete="off"></td></tr><tr><td><input class="wb-in cell" id="d2-p3-33" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d2-p3-34" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d2-p3-35" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d2-p3-36" data-f="1" type="text" autocomplete="off"></td></tr><tr><td><input class="wb-in cell" id="d2-p3-37" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d2-p3-38" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d2-p3-39" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d2-p3-40" data-f="1" type="text" autocomplete="off"></td></tr><tr><td><input class="wb-in cell" id="d2-p3-41" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d2-p3-42" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d2-p3-43" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d2-p3-44" data-f="1" type="text" autocomplete="off"></td></tr></tbody></table></div>
+<div class="wb-p"><b>Now answer the ones that cleared. Row count on every answer.</b></div>
+<div class="wb-tw"><table class="wb-t"><thead><tr><th>The question</th><th>Your answer</th><th>Rows the tool used</th></tr></thead><tbody><tr><td><input class="wb-in cell" id="d2-p3-45" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d2-p3-46" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d2-p3-47" data-f="1" type="text" autocomplete="off"></td></tr><tr><td><input class="wb-in cell" id="d2-p3-48" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d2-p3-49" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d2-p3-50" data-f="1" type="text" autocomplete="off"></td></tr><tr><td><input class="wb-in cell" id="d2-p3-51" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d2-p3-52" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d2-p3-53" data-f="1" type="text" autocomplete="off"></td></tr><tr><td><input class="wb-in cell" id="d2-p3-54" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d2-p3-55" data-f="1" type="text" autocomplete="off"></td><td><input class="wb-in cell" id="d2-p3-56" data-f="1" type="text" autocomplete="off"></td></tr></tbody></table></div>
+<div class="wb-inline"><span><b>My confidence after those, out of 10:</b></span><input class="wb-in short" id="d2-p3-57" data-f="1" type="text" autocomplete="off"></div>
+<div class="wb-rule"></div>
+</section>
+<section class="wb-page" id="page-3b"><div class="wb-pn">Page 3b</div><h2 class="wb-h2">Block 6: The fifth question</h2>
+<div class="wb-p"><b>The manager's fifth question:</b> average time to close a work order, by site.</div>
+<div class="wb-inline"><span>Your answer:</span><input class="wb-in short" id="d2-p3b-58" data-f="1" type="text" autocomplete="off"></div>
+<div class="wb-inline"><span>Rows the tool used:</span><input class="wb-in short" id="d2-p3b-59" data-f="1" type="text" autocomplete="off"><span>Rows in the file:</span><input class="wb-in short" id="d2-p3b-60" data-f="1" type="text" autocomplete="off"><span>The difference:</span><input class="wb-in short" id="d2-p3b-61" data-f="1" type="text" autocomplete="off"></div>
+<div class="wb-p"><b>Did you run the check on this one before you asked?</b> yes / no</div>
+<div class="wb-inline"><span><b>Which columns does it need?</b></span><input class="wb-in short" id="d2-p3b-62" data-f="1" type="text" autocomplete="off"></div>
+<div class="wb-inline"><span><b>How many rows have all of them?</b></span><input class="wb-in short" id="d2-p3b-63" data-f="1" type="text" autocomplete="off"></div>
+<div class="wb-p"><b>Where had you already seen this problem?</b></div>
+<div class="wb-line"><textarea class="wb-in" id="d2-p3b-64" data-f="1" rows="1"></textarea></div>
+<div class="wb-p"><b>Which site ranked fastest, and where does it actually rank?</b></div>
+<div class="wb-line"><textarea class="wb-in" id="d2-p3b-65" data-f="1" rows="1"></textarea></div>
+<div class="wb-rule"></div>
+<h3 class="wb-h3">The concept</h3>
+<blockquote class="wb-q"><b>Confidence is not evidence. Ask for the row count on every question, not on the hard ones, because you cannot tell in advance which one is the hard one.</b></blockquote>
+<div class="wb-p">Nothing went wrong with the tool. Every number in the first table was arithmetically correct. It answered the question it was asked, using the rows it could use, and said nothing about the rest.</div>
+<div class="wb-p"><b>This was not a hallucination. It was a silence.</b></div>
+<div class="wb-rule"></div>
+</section>
+<section class="wb-page" id="page-4"><div class="wb-pn">Page 4</div><h2 class="wb-h2">Block 6: The fix, and why it works</h2>
+<div class="wb-ex"><span class="wb-ex-n">Exercise 6.1.</span>Rewrite the fifth question so a wrong answer becomes visible.</div>
+<div class="wb-line"><textarea class="wb-in" id="d2-p4-66" data-f="1" rows="1"></textarea></div>
+<div class="wb-line"><textarea class="wb-in" id="d2-p4-67" data-f="1" rows="1"></textarea></div>
+<div class="wb-line"><textarea class="wb-in" id="d2-p4-68" data-f="1" rows="1"></textarea></div>
+<div class="wb-rule"></div>
+<h3 class="wb-h3">The version that works</h3>
+<pre class="wb-code">What is the average time to close a work order, by site?
+Time to close means the days between RaisedDate and CloseDate.
+
+Before you answer:
+- report how many work orders have no CloseDate
+- report that count by site, as a percentage of each site's rows
+
+Then give me two tables:
+Table A: the average using only work orders that have a CloseDate.
+Table B: the average counting work orders with no CloseDate as still open,
+measured from RaisedDate to the latest date in the file.
+
+Tell me which sites change rank between the two tables.</pre>
+<div class="wb-p"><b>Same tool. Same file. Same question. Three extra lines.</b></div>
+<div class="wb-p">You did this in your workbook in ninety seconds in Block 5. <b>These lines do it inside the prompt, every time, whether or not you remember.</b></div>
+<div class="wb-rule"></div>
+<h3 class="wb-h3">Two sentences to keep</h3>
+<blockquote class="wb-q"><b>Clean is not the same as complete.</b><br>Clean means what is in it is right. It does not mean everything you need is there.</blockquote>
+<blockquote class="wb-q"><b>Run the check on every question, not on the hard ones.</b><br>You cannot tell in advance which one is the hard one.</blockquote>
+<div class="wb-rule"></div>
+</section>
+<section class="wb-page" id="page-5"><div class="wb-pn">Page 5</div><h2 class="wb-h2">Blocks 7 and 9: Compared with what?</h2>
+<div class="wb-p"><b>A number becomes information when you put something beside it.</b> There are four things you can put there.</div>
+<div class="wb-tw"><table class="wb-t"><thead><tr><th>#</th><th>Compare against</th><th>The question it answers</th><th>Watch out for</th></tr></thead><tbody><tr><td><b>1</b></td><td>The same thing last period</td><td>Is this getting better or worse?</td><td>Both windows need the same chance to age</td></tr><tr><td><b>2</b></td><td>The target</td><td>Are we where we said we would be?</td><td>If nobody set one, say so. Do not invent one</td></tr><tr><td><b>3</b></td><td>Another group</td><td>Who is doing this better?</td><td>The groups have to be alike enough</td></tr><tr><td><b>4</b></td><td>A benchmark outside</td><td>Is this normal for work like ours?</td><td>Where did it come from, and who paid for it</td></tr></tbody></table></div>
+<div class="wb-p"><b>A fifth option is always available: compare against nothing, and say so.</b></div>
+<div class="wb-rule"></div>
+<div class="wb-ex"><span class="wb-ex-n">Exercise 9.1.</span>Take one number from the Work Order Set. Produce four versions of it, one per comparison. <b>All four will be true.</b></div>
+<div class="wb-inline"><span><b>My number:</b></span><input class="wb-in short" id="d2-p5-69" data-f="1" type="text" autocomplete="off"><span><b>Rows it used:</b></span><input class="wb-in short" id="d2-p5-70" data-f="1" type="text" autocomplete="off"></div>
+<div class="wb-tw"><table class="wb-t"><thead><tr><th>#</th><th>Compared against</th><th>The finding that comes out</th></tr></thead><tbody><tr><td>1</td><td>Last period</td><td><input class="wb-in cell" id="d2-p5-71" data-f="1" type="text" autocomplete="off"></td></tr><tr><td>2</td><td>The target</td><td><input class="wb-in cell" id="d2-p5-72" data-f="1" type="text" autocomplete="off"></td></tr><tr><td>3</td><td>Another group</td><td><input class="wb-in cell" id="d2-p5-73" data-f="1" type="text" autocomplete="off"></td></tr><tr><td>4</td><td>A benchmark</td><td><input class="wb-in cell" id="d2-p5-74" data-f="1" type="text" autocomplete="off"></td></tr></tbody></table></div>
+<div class="wb-inline"><span><b>Which of those four would change a decision?</b></span><input class="wb-in short" id="d2-p5-75" data-f="1" type="text" autocomplete="off"></div>
+<div class="wb-p"><b>Choosing the comparison is choosing what matters. The tool will not do that for you.</b></div>
+<div class="wb-rule"></div>
+</section>
+<section class="wb-page" id="page-6"><div class="wb-pn">Page 6</div><h2 class="wb-h2">Block 11: Outlier or signal</h2>
+<div class="wb-p"><b>Your answer from Day 1, page 8.</b> Did you delete the 40x cost row?</div><div class="wb-cks"><label class="wb-ck"><input type="checkbox" id="d2-p6-76" data-f="1"><span class="wb-box"></span><span>Yes</span></label><label class="wb-ck"><input type="checkbox" id="d2-p6-77" data-f="1"><span class="wb-box"></span><span>No</span></label></div>
+<div class="wb-p"><b>What it actually was:</b></div>
+<div class="wb-p"><code>WO-2087</code>. Ahmadi Refinery. 72 hours. 390,000 KWD. A three-day compressor failure, and the most expensive single event in fourteen months of data.</div>
+<div class="wb-p"><b>It is also one of the twenty duplicate IDs.</b> Removing duplicates by ID could have deleted it without anybody choosing to.</div>
+<div class="wb-rule"></div>
+<h3 class="wb-h3">Three questions for any outlier</h3>
+<div class="wb-li num"><span class="wb-num">1</span><span>Is it a data error, or a real event?</span></div>
+<div class="wb-li num"><span class="wb-num">2</span><span>If it is real, is it a one-off or the first of a pattern?</span></div>
+<div class="wb-li num"><span class="wb-num">3</span><span>Who in the business would know?</span></div>
+<blockquote class="wb-q"><b>An outlier is a value far outside the normal range. A signal is one that means something.</b><br><b>The data cannot tell you which one you are holding. The business can.</b></blockquote>
+<div class="wb-p"><b>The cleaner chart is not the more correct chart. It is the more comfortable one.</b></div>
+<div class="wb-rule"></div>
+</section>
+<section class="wb-page" id="page-7"><div class="wb-pn">Page 7</div><h2 class="wb-h2">Block 12: What it means</h2>
+<div class="wb-p"><b>A true comparison is not yet a finding.</b> Meaning is a different question: <b>what changes if this is true?</b></div>
+<h3 class="wb-h3">The three tests</h3>
+<div class="wb-tw"><table class="wb-t"><thead><tr><th>Test</th><th>The question</th></tr></thead><tbody><tr><td><b>So what</b></td><td>What does this cost or save, and roughly how much?</td></tr><tr><td><b>Who</b></td><td>Who does something different because of it?</td></tr><tr><td><b>What would break it</b></td><td>What would have to be true for this to be wrong?</td></tr></tbody></table></div>
+<div class="wb-rule"></div>
+<div class="wb-ex"><span class="wb-ex-n">Exercise 12.1.</span>Finish your Comparison card, then copy it here.</div>
+<div class="wb-inline"><span><b>The number:</b></span><input class="wb-in short" id="d2-p7-78" data-f="1" type="text" autocomplete="off"></div>
+<div class="wb-p"><b>Compared against:</b></div><div class="wb-cks"><label class="wb-ck"><input type="checkbox" id="d2-p7-79" data-f="1"><span class="wb-box"></span><span>last period</span></label><label class="wb-ck"><input type="checkbox" id="d2-p7-80" data-f="1"><span class="wb-box"></span><span>target</span></label><label class="wb-ck"><input type="checkbox" id="d2-p7-81" data-f="1"><span class="wb-box"></span><span>another group</span></label><label class="wb-ck"><input type="checkbox" id="d2-p7-82" data-f="1"><span class="wb-box"></span><span>benchmark</span></label></div>
+<div class="wb-p"><b>The comparison, in one line:</b></div>
+<div class="wb-line"><textarea class="wb-in" id="d2-p7-83" data-f="1" rows="1"></textarea></div>
+<div class="wb-inline"><span><b>Rows it used:</b></span><input class="wb-in short" id="d2-p7-84" data-f="1" type="text" autocomplete="off"></div>
+<div class="wb-p"><b>What it means.</b> Not what it is. What changes if it is true.</div>
+<div class="wb-line"><textarea class="wb-in" id="d2-p7-85" data-f="1" rows="1"></textarea></div>
+<div class="wb-line"><textarea class="wb-in" id="d2-p7-86" data-f="1" rows="1"></textarea></div>
+<div class="wb-p"><b>What would have to be true for this to be wrong:</b></div>
+<div class="wb-line"><textarea class="wb-in" id="d2-p7-87" data-f="1" rows="1"></textarea></div>
+<div class="wb-rule"></div>
+<div class="wb-p"><b>The test before you hand it over:</b> read it out loud and ask <b>who does something different tomorrow because of it?</b> If the answer is nobody, you have a number and a neighbour, not a finding.</div>
+<div class="wb-rule"></div>
+</section>
+<section class="wb-page" id="page-8"><div class="wb-pn">Page 8</div><h2 class="wb-h2">Day 2 key takeaways</h2>
+<div class="wb-p"><b>Write these in your own words.</b></div>
+<div class="wb-line"><span class="wb-num">1</span><textarea class="wb-in" id="d2-p8-88" data-f="1" rows="1"></textarea></div>
+<div class="wb-line"><span class="wb-num">2</span><textarea class="wb-in" id="d2-p8-89" data-f="1" rows="1"></textarea></div>
+<div class="wb-line"><span class="wb-num">3</span><textarea class="wb-in" id="d2-p8-90" data-f="1" rows="1"></textarea></div>
+<div class="wb-rule"></div>
+<h3 class="wb-h3">What today built</h3>
+<div class="wb-cks"><label class="wb-ck"><input type="checkbox" id="d2-p8-91" data-f="1"><span class="wb-box"></span><span>The fitness check: which columns, and how many rows have all of them</span></label></div>
+<div class="wb-cks"><label class="wb-ck"><input type="checkbox" id="d2-p8-92" data-f="1"><span class="wb-box"></span><span>The fifth question, where the tool dropped 14 percent of the file and said nothing</span></label></div>
+<div class="wb-cks"><label class="wb-ck"><input type="checkbox" id="d2-p8-93" data-f="1"><span class="wb-box"></span><span>The compressor failure row, kept on purpose</span></label></div>
+<div class="wb-cks"><label class="wb-ck"><input type="checkbox" id="d2-p8-94" data-f="1"><span class="wb-box"></span><span>Your Comparison card, filled in</span></label></div>
+<div class="wb-rule"></div>
+<h3 class="wb-h3">The four things worth carrying to your desk</h3>
+<div class="wb-p"><b>Ground the file. Do not paste it.</b> Then ask for the row count every time.</div>
+<div class="wb-p"><b>Before you ask: which columns does this need, and how many rows have them all?</b> Clean is not complete.</div>
+<div class="wb-p"><b>Keep the strange row until somebody explains it.</b> The data cannot tell you what it means.</div>
+<div class="wb-p"><b>A number becomes information when you put something beside it.</b> Choosing what to put there is choosing what matters.</div>
+<div class="wb-rule"></div>
+<h3 class="wb-h3">Before tomorrow</h3>
+<div class="wb-cks"><label class="wb-ck"><input type="checkbox" id="d2-p8-95" data-f="1"><span class="wb-box"></span><span><b>Bring your Comparison card.</b> Tomorrow opens by pointing at it</span></label></div>
+<div class="wb-cks"><label class="wb-ck"><input type="checkbox" id="d2-p8-96" data-f="1"><span class="wb-box"></span><span>Bring your cleaned Work Order Set</span></label></div>
+<div class="wb-p"><b>Tomorrow:</b> you get a dashboard where every number is correct and nobody in the room can use it. Then you build one that a stranger can read <b>without you standing next to them.</b></div>
+<div class="wb-rule"></div>
+<h3 class="wb-h3">Open notes</h3>
+<div class="wb-line"><textarea class="wb-in" id="d2-p8-97" data-f="1" rows="1"></textarea></div>
+<div class="wb-line"><textarea class="wb-in" id="d2-p8-98" data-f="1" rows="1"></textarea></div>
+<div class="wb-line"><textarea class="wb-in" id="d2-p8-99" data-f="1" rows="1"></textarea></div>
+</section>
+  </main>
+</div>
+<script>
+var DAY = 2;
+var WBTITLE = "AI-Powered Data Analysis - Day 2: From Data to Information - Participant Workbook";
+
+(function(){
+  var KEY = 'ada_workbook_' + DAY, saveT = null;
+  var fields = [].slice.call(document.querySelectorAll('[data-f]'));
+
+  function load(){
+    var d = {};
+    try { d = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e){ d = {}; }
+    fields.forEach(function(f){
+      if (!(f.id in d)) return;
+      if (f.type === 'checkbox') f.checked = !!d[f.id]; else f.value = d[f.id];
+    });
+    fields.forEach(fit); mark();
+  }
+  function save(){
+    var d = {};
+    fields.forEach(function(f){
+      var v = f.type === 'checkbox' ? f.checked : f.value;
+      if (v !== '' && v !== false) d[f.id] = v;
+    });
+    try { localStorage.setItem(KEY, JSON.stringify(d)); } catch(e){}
+    var el = document.getElementById('saved');
+    if (el){
+      var t = new Date();
+      el.textContent = 'Saved · ' + String(t.getHours()).padStart(2,'0') + ':' + String(t.getMinutes()).padStart(2,'0');
+      el.classList.add('on');
+      setTimeout(function(){ el.classList.remove('on'); }, 1400);
+    }
+    mark();
+  }
+  function queue(){ if (saveT) clearTimeout(saveT); saveT = setTimeout(save, 500); }
+  function fit(f){
+    if (f.tagName !== 'TEXTAREA') return;
+    f.style.height = 'auto'; f.style.height = Math.max(44, f.scrollHeight) + 'px';
+  }
+  function mark(){
+    var done = 0;
+    fields.forEach(function(f){
+      var on = f.type === 'checkbox' ? f.checked : f.value.trim() !== '';
+      if (on) done++;
+      if (f.classList) f.classList.toggle('filled', on && f.type !== 'checkbox');
+    });
+    var p = fields.length ? Math.round(done / fields.length * 100) : 0;
+    var b = document.getElementById('bar'), c = document.getElementById('cnt');
+    if (b) b.style.width = p + '%';
+    if (c) c.textContent = done + ' of ' + fields.length + ' filled';
+  }
+
+  fields.forEach(function(f){
+    f.addEventListener('input', function(){ fit(f); queue(); });
+    f.addEventListener('change', queue);
+  });
+  load();
+
+  /* rail: highlight the page you are on */
+  var links = [].slice.call(document.querySelectorAll('.rl-nav a'));
+  var pages = [].slice.call(document.querySelectorAll('.wb-page'));
+  function onScroll(){
+    var y = window.scrollY + 120, cur = pages[0];
+    pages.forEach(function(p){ if (p.offsetTop <= y) cur = p; });
+    links.forEach(function(a){ a.classList.toggle('on', cur && a.getAttribute('href') === '#' + cur.id); });
+  }
+  window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+  /* work out what question an answer belongs to, so the export reads as a document */
+  function label(f){
+    if (f.type === 'checkbox') return '';
+    var inl = f.closest('.wb-inline');
+    if (inl) return inl.querySelector('span').textContent.trim() + ' ';
+    var td = f.closest('td');
+    if (td){
+      var tr = td.parentNode, tbl = td.closest('table');
+      var idx = [].indexOf.call(tr.children, td);
+      var head = tbl.querySelectorAll('thead th')[idx];
+      var first = tr.children[0];
+      var col = head ? head.textContent.trim() : '';
+      var row = (first && first !== td) ? first.textContent.trim() : '';
+      return (row ? row + ' / ' : '') + (col ? col + ': ' : '');
+    }
+    /* walk back for the nearest prompt above this field */
+    var n = f.closest('.wb-line') || f;
+    while ((n = n.previousElementSibling)){
+      if (n.matches('.wb-p, .wb-h3, .wb-ex, .wb-q')){
+        var t = (n.matches('.wb-ex')
+                  ? (n.querySelector('.wb-ex-n').textContent.trim() + ' ' +
+                     n.textContent.replace(n.querySelector('.wb-ex-n').textContent, '').trim())
+                  : n.textContent).replace(/\s+/g,' ').trim();
+        return t.length > 110 ? '' : t + '\n  ';
+      }
+      if (n.matches('.wb-line, .wb-tw, .wb-cks, .wb-rule')) break;
+    }
+    return '';
+  }
+
+  /* take it away */
+  document.getElementById('btnPrint').onclick = function(){ window.print(); };
+  document.getElementById('btnDl').onclick = function(){
+    var out = [WBTITLE, ''.padEnd(WBTITLE.length, '='), ''];
+    document.querySelectorAll('.wb-page').forEach(function(pg){
+      var lines = [];
+      pg.querySelectorAll('[data-f]').forEach(function(f){
+        if (f.type === 'checkbox'){
+          if (f.checked) lines.push('[x] ' + f.parentNode.textContent.replace(/\s+/g,' ').trim());
+          return;
+        }
+        var v = f.value.trim();
+        if (v) lines.push(label(f) + v);
+      });
+      if (!lines.length) return;                       /* a page they left blank */
+      out.push('', 'PAGE ' + pg.querySelector('.wb-pn').textContent.replace(/^Page\s*/,''),
+               ((pg.querySelector('.wb-h2') || {}).textContent || '').trim(), '');
+      out.push.apply(out, lines);
+    });
+    var name = document.getElementById('nameField');
+    var who = name && name.value.trim() ? name.value.trim().replace(/[^\w -]/g,'') : 'workbook';
+    var blob = new Blob([out.join('\n')], {type:'text/plain;charset=utf-8'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = who + ' - Day ' + DAY + '.txt';
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 500);
+  };
+  document.getElementById('btnClear').onclick = function(){
+    if (!confirm('Clear everything you have typed in this Day ' + DAY + ' workbook? This cannot be undone.')) return;
+    try { localStorage.removeItem(KEY); } catch(e){}
+    fields.forEach(function(f){ if (f.type === 'checkbox') f.checked = false; else f.value = ''; });
+    fields.forEach(fit); mark();
+  };
+})();
+
+</script>
+</body>
+</html>
